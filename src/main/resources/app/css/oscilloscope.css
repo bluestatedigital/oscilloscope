@@ -1,3 +1,13 @@
+/*
+    This gives us full-width rows using Foundation, which we need / want when displaying circuit breakers on the monitoring view.
+*/
+.row.full-width {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 20px;
+}
+
+/* Custom styling to show the "--- OR ---" element when selecting between a cluster or custom stream target. */
 .stream-divider {
     position: relative;
     margin: 0.5em 0;
@@ -29,4 +39,49 @@
     font-weight: bold;
     color: #999;
     background: #fff;
+}
+
+/* Customize the subnav so it actually has a non-white background. */
+.sub-nav {
+    background-color: #f2f2f2;
+    padding: 10px;
+}
+
+/* Custom overrides to make Hystrix styling work properly with some of Foundation's defaults. */
+.dependencies {
+    line-height: 1; /* Foundation sets this to 1.5, which spaces out the circuit breaker layout way too much. */
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+p.name {
+    line-height: 1;
+}
+
+/* Custom classes to colorize the subnav legend on the monitor page. */
+dd.legend {
+    font-weight: bold;
+}
+.legend.legend_success {
+    color: green;
+}
+
+.legend.legend_short_circuited {
+    color: blue;
+}
+
+.legend.legend_timeout {
+    color: #FF9900;	 /* shade of orange */
+}
+
+.legend.legend_failure {
+    color: red;
+}
+
+.legend.legend_rejected {
+    color: purple;
+}
+
+.legend.legend_bad_request {
+    color: lightSeaGreen;
 }

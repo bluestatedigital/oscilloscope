@@ -41,7 +41,7 @@
 }
 
 /* override the HREF when we have specified it as a tooltip to not act like a link */
-.dependencies div.monitor_data a.tooltip {
+.dependencies div.monitor_data a.flatlink {
 	text-decoration: none;
 	cursor: default;
 }
