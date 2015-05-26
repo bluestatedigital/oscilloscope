@@ -16,7 +16,16 @@ Almost more importantly than the ease of getting the dashboard running is using 
 
 By adding an AJAX endpoint that lists out the available clusters, and tweaking the landing page UI to expose that list, you can now quickly and easily select a cluster to monitor. Now it's as simple as configuring the application to use the right discovery mechanism for Turbine, and you reap the benefits in actually selecting which of those clusters to monitor. As it stands, this is hard-coded to use a Consul-based discovery mechanism, but we're working on having it use the same instance discovery implementation that Turbine gets initialized with so that every lines up.
 
-# Super Important Legal Note Kinda Sort
+# Based On
+- `dropwizard`: project skeleton/framework
+- `hystrix-dashboard`: UI code, proxy servlet/endpoint
+- `turbine`: cluster discovery, integrated Turbine endpoint
+- `jquery`: JS framework of choice
+- `d3`: circuit breaker / thread pool visualizations
+- `foundation`: UI framework
+- `chosen`: jQuery plugin for fancy select elements
+
+# Super Important Legal Note Kinda Sorta
 We're using code from Hystrix itself (namely the dashboard UI assets to actually draw the command/thread pool metrics and graphs) but potentially other stuff.  We/I have every intent to license things properly, but we may be missing the correct licensing at times.  Please do not hesitate to file an issue if there's a licensing problem.  Open source code is a godsend, but we all want to make sure code is being used rightfully and legally.
 
 You can reach out specifically to __toby@bluestatedigital.com__ about any licensing issues.
