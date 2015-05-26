@@ -1,0 +1,32 @@
+.stream-divider {
+    position: relative;
+    margin: 0.5em 0;
+    padding: 0;
+    height: 2em;
+    font-size: 20px;
+    line-height: 2em;
+    text-align: center;
+}
+
+.stream-divider hr {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    top: 1em;
+    left: 0;
+    right: 0;
+    height: 0;
+    border: 0;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #fff;
+}
+
+.stream-divider-msg {
+    position: relative;
+    display: inline-block;
+    padding: 0 8px;
+    font-style: italic;
+    font-weight: bold;
+    color: #999;
+    background: #fff;
+}
