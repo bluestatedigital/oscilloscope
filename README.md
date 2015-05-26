@@ -20,3 +20,5 @@ By adding an AJAX endpoint that lists out the available clusters, and tweaking t
 We're using code from Hystrix itself (namely the dashboard UI assets to actually draw the command/thread pool metrics and graphs) but potentially other stuff.  We/I have every intent to license things properly, but we may be missing the correct licensing at times.  Please do not hesitate to file an issue if there's a licensing problem.  Open source code is a godsend, but we all want to make sure code is being used rightfully and legally.
 
 You can reach out specifically to __toby@bluestatedigital.com__ about any licensing issues.
+
+Other than that, all of the code that *is* ours uses the Apache License.  Take it, fork it, switch - upgrade it.  Go nuts.  This land is my land, this land is your land, etc etc.
