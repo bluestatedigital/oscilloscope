@@ -1,6 +1,10 @@
 *.class
 dependency-reduced-pom.xml
 
+# IntelliJ stuff
+.idea
+*.iml
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
