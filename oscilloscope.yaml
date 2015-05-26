@@ -1,3 +1,5 @@
 server:
+    gzip:
+        enabled: false
     rootPath: '/service/*'
     applicationContextPath: /
