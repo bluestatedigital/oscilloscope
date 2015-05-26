@@ -48,11 +48,11 @@ public class OscilloscopeApplication extends Application<OscilloscopeConfigurati
     public void run(OscilloscopeConfiguration configuration, Environment environment)
     {
         // Start Turbine.  Wahooo!
-        TurbineInit.init();
+        //TurbineInit.init();
 
         // Map the 'turbine.stream' endpoint to the Turbine event stream servlet, and the 'proxy.stream' endpoint to
         // the proxying servlet.  The proxy servlet lets us get around CORS issues with EventSource.
-        environment.getApplicationContext().addServlet(new ServletHolder(new TurbineStreamServlet()), "/turbine.stream");
+        //environment.getApplicationContext().addServlet(new ServletHolder(new TurbineStreamServlet()), "/turbine.stream");
         environment.getApplicationContext().addServlet(new ServletHolder(new ProxyStreamServlet()), "/proxy.stream");
 
         // Now set up our application's own special endpoints.
