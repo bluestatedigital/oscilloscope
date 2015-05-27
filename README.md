@@ -14,7 +14,7 @@ We aren't particularily familiar with Java, and while running a Tomcat container
 
 Almost more importantly than the ease of getting the dashboard running is using it.  The standard `hystrix-dashboard` project requires manual input - boooo!  With the use of Turbine to aggregate streams, you're already specifying clusters, or discovering clusters, that can be monitored.  We wanted to take advantage of that. 
 
-By adding an AJAX endpoint that lists out the available clusters, and tweaking the landing page UI to expose that list, you can now quickly and easily select a cluster to monitor. Now it's as simple as configuring the application to use the right discovery mechanism for Turbine, and you reap the benefits in actually selecting which of those clusters to monitor. As it stands, this is hard-coded to use a Consul-based discovery mechanism, but we're working on having it use the same instance discovery implementation that Turbine gets initialized with so that every lines up.
+By adding an AJAX endpoint that lists out the available clusters, and tweaking the landing page UI to expose that list, you can now quickly and easily select a cluster to monitor. Now it's as simple as configuring the application to use the right discovery mechanism for Turbine, and you reap the benefits by being able to actually select which of those clusters to monitor right from Oscilloscope itself, no manually constructing URLs.
 
 # Based On
 - `dropwizard`: project skeleton/framework
