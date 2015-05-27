@@ -50,7 +50,7 @@
 }
 
 /* Custom overrides to make Hystrix styling work properly with some of Foundation's defaults. */
-.dependencies {
+.dependencies, .dependencyThreadPools {
     line-height: 1; /* Foundation sets this to 1.5, which spaces out the circuit breaker layout way too much. */
     -webkit-box-sizing: content-box;
     box-sizing: content-box;

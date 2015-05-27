@@ -63,11 +63,11 @@
 	padding-right:5px;
 }
 
-.dependencyThreadPools div.tableRow .header.left {
+.dependencyThreadPools div.tableRow .header.cell-left {
 	width:85px;
 }
 
-.dependencyThreadPools div.tableRow .header.right {
+.dependencyThreadPools div.tableRow .header.cell-right {
 	width:75px;
 }
 
@@ -76,11 +76,11 @@
 	text-align:right;
 }
 
-.dependencyThreadPools div.tableRow .data.left {
+.dependencyThreadPools div.tableRow .data.cell-left {
 	width:30px;
 }
 
-.dependencyThreadPools div.tableRow .data.right {
+.dependencyThreadPools div.tableRow .data.cell-right {
 	width:45px;
 }
 
@@ -94,7 +94,7 @@
 
 
 /* override the HREF when we have specified it as a tooltip to not act like a link */
-.dependencyThreadPools div.monitor_data a.tooltip {
+.dependencyThreadPools div.monitor_data a.flatlink {
 	text-decoration: none;
 	cursor: default;	
 }
