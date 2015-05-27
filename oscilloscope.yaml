@@ -1,5 +1,9 @@
 server:
-    gzip:
-        enabled: false
-    rootPath: '/service/*'
-    applicationContextPath: /
+  gzip:
+    enabled: false
+  rootPath: '/service/*'
+  applicationContextPath: /
+
+turbine:
+  InstanceDiscovery.impl: com.bluestatedigital.oscilloscope.discovery.ConsulBasedInstanceDiscovery
+  turbine.instanceUrlSuffix: /hystrix.stream

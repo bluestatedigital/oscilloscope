@@ -23,36 +23,14 @@ public class ConsulBasedInstanceDiscovery implements InstanceDiscovery
         ConsulClient client = new ConsulClient();
 
         Response<Map<String, List<String>>> response = client.getCatalogServices(new QueryParams(ConsistencyMode.DEFAULT));
-        for(Map.Entry<String, List<String>> service : response.getValue().entrySet())
-        {
-            if(service.getKey().endsWith("-hystrix"))
-            {
-                String clusterName = service.getKey().replace("-hystrix", "");
-                Response<List<CatalogService>> serviceResponse = client.getCatalogService(service.getKey(), new QueryParams(ConsistencyMode.DEFAULT));
-                instances.addAll(serviceResponse.getValue()
-                        .stream()
-                        .map(node -> new Instance(String.format("%s:%d", node.getServiceAddress(), node.getServicePort()), clusterName, true))
-                        .collect(Collectors.toList()));
-            }
-        }
+        response.getValue().entrySet().stream().filter(service -> service.getValue().contains("hystrix")).forEach(service -> {
+            Response<List<CatalogService>> serviceResponse = client.getCatalogService(service.getKey(), new QueryParams(ConsistencyMode.DEFAULT));
+            instances.addAll(serviceResponse.getValue()
+                    .stream()
+                    .map(node -> new Instance(String.format("%s:%d", node.getServiceAddress(), node.getServicePort()), service.getKey(), true))
+                    .collect(Collectors.toList()));
+        });
 
         return instances;
-    }
-
-    public Collection<String> getClusterList() throws Exception
-    {
-        Collection<String> clusters = new ArrayList<>();
-        ConsulClient client = new ConsulClient();
-
-        Response<Map<String, List<String>>> response = client.getCatalogServices(new QueryParams(ConsistencyMode.DEFAULT));
-        response.getValue().entrySet()
-                .stream()
-                .filter(service -> service.getKey().endsWith("-hystrix"))
-                .forEach(service -> {
-                    String clusterName = service.getKey().replace("-hystrix", "");
-                    clusters.add(clusterName);
-                });
-
-        return clusters;
     }
 }
