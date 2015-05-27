@@ -2,6 +2,15 @@ $(document).ready(function() {
     // Get the services we know about so we can display a list of them to watch.
     $.ajax("/service/clusters")
         .done(function(result) {
+            if(result.length == 0) {
+                $("<option></option>")
+                    .html("No clusters found.")
+                    .attr("selected", "selected")
+                    .appendTo("#cluster")
+
+                $("#cluster").attr("disabled", "disabled")
+            }
+
             $.each(result, function(i, e) {
                 $("<option></option>")
                     .attr("value", e)
@@ -15,7 +24,7 @@ $(document).ready(function() {
         })
         .fail(function () {
             $("<option></option>")
-                .html("No clusters available!")
+                .html("Failed to query available clusters!")
                 .attr("selected", "selected")
                 .appendTo("#cluster")
 
