@@ -14,12 +14,12 @@ $(document).ready(function() {
             })
         })
         .fail(function () {
-            var alert = $("<div></div>")
-                .addClass("alert-box")
-                .addClass("warning")
-                .html("Failed to get list of available clusters!")
+            $("<option></option>")
+                .html("No clusters available!")
+                .attr("selected", "selected")
+                .appendTo("#cluster")
 
-            alert.hide().insertAfter("#cluster").fadeIn(1000)
+            $("#cluster").attr("disabled", "disabled")
         })
 
     // Track changes to our custom target textbox.

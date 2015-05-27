@@ -1,10 +1,12 @@
-/*
-    This gives us full-width rows using Foundation, which we need / want when displaying circuit breakers on the monitoring view.
-*/
+/* This gives us full-width rows using Foundation, which we need / want when displaying circuit breakers on the monitoring view. */
 .row.full-width {
     width: 100%;
     max-width: 100%;
     padding: 0 20px;
+}
+
+.row.header {
+    margin-top: 20px;
 }
 
 /* Custom styling to show the "--- OR ---" element when selecting between a cluster or custom stream target. */
