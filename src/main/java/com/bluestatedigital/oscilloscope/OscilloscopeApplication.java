@@ -2,17 +2,11 @@ package com.bluestatedigital.oscilloscope;
 
 import com.bluestatedigital.oscilloscope.resources.ClusterResource;
 import com.bluestatedigital.oscilloscope.stream.ProxyStreamServlet;
-import com.netflix.config.ConfigurationManager;
-import com.netflix.turbine.init.TurbineInit;
-import com.netflix.turbine.streaming.servlet.TurbineStreamServlet;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import org.apache.commons.configuration.MapConfiguration;
 import org.eclipse.jetty.servlet.ServletHolder;
-
-import java.util.HashMap;
 
 public class OscilloscopeApplication extends Application<OscilloscopeConfiguration>
 {
@@ -37,18 +31,10 @@ public class OscilloscopeApplication extends Application<OscilloscopeConfigurati
     @Override
     public void run(OscilloscopeConfiguration configuration, Environment environment)
     {
-        // Install our configuration for Turbine.
-        ConfigurationManager.install(new MapConfiguration(configuration.getTurbineConfig()));
+        // Set up our proxying servlet for one-to-one streams.
+        environment.getApplicationContext().addServlet(new ServletHolder(new ProxyStreamServlet()), "/stream/proxy");
 
-        // Now start it.
-        TurbineInit.init();
-
-        // Map the 'turbine.stream' endpoint to the Turbine event stream servlet, and the 'proxy.stream' endpoint to
-        // the proxying servlet.  The proxy servlet lets us get around CORS issues with EventSource.
-        environment.getApplicationContext().addServlet(new ServletHolder(new TurbineStreamServlet()), "/turbine.stream");
-        environment.getApplicationContext().addServlet(new ServletHolder(new ProxyStreamServlet()), "/proxy.stream");
-
-        // Now set up our application's own specific endpoints.
+        // Set up our cluster endpoint for getting cluster information.
         final ClusterResource clusterResource = new ClusterResource();
         environment.jersey().register(clusterResource);
     }
