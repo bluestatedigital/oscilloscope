@@ -29,11 +29,11 @@ $(document).ready(function() {
     var eventStream = ""
 
     if (stream != undefined) {
-        eventStream = "/proxy.stream?origin=" + stream
+        eventStream = "/service/stream/host?target=" + stream
 
-        $("#monitor_type").html("Stream: <small>" + stream + "</small>")
+        $("#monitor_type").html("Stream: <small>" + decodeURIComponent(stream) + "</small>")
     } else if (cluster != undefined) {
-        eventStream = "/turbine.stream?cluster=" + cluster
+        eventStream = "/service/stream/cluster?cluster=" + cluster
 
         $("#monitor_type").html("Cluster: <small>" + cluster + "</small>")
     }
