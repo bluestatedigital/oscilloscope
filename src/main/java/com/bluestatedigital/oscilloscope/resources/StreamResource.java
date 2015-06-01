@@ -94,7 +94,8 @@ public class StreamResource
         StreamDiscovery discovery = this.discoveryFactory.getDiscoveryForCluster(cluster);
 
         // Get our stream and convert it to a streaming response.
-        Observable<Map<String, Object>> eventStream = getGroupedStream(discovery).flatMap(o -> o);
+        Observable<Map<String, Object>> eventStream = getGroupedStream(discovery)
+                .flatMap(o -> o);
 
         return streamFromObservable(eventStream);
     }
@@ -115,7 +116,7 @@ public class StreamResource
                 @Override
                 public void onCompleted() {
                     try {
-                        logger.info("Event stream finished; closing stream to client.");
+                        logger.debug("Event stream finished; closing stream to client.");
                         outputStream.close();
                     } catch (IOException e) {
                         logger.warn("Exception closing output stream", e);
@@ -133,14 +134,14 @@ public class StreamResource
                 public void onNext(Map<String, Object> event) {
                     try {
                         String eventAsJson = JsonUtility.mapToJson(event);
-                        logger.info("Writing event to stream; event: {} bytes", eventAsJson.length());
+                        logger.debug("Writing event to stream; event: {} bytes", eventAsJson.length());
 
                         outputStream.write("data: ".getBytes());
                         outputStream.write(eventAsJson.getBytes());
                         outputStream.write("\n\n".getBytes());
                         outputStream.flush();
                     } catch (EofException e) {
-                        logger.info("Client disconnected; unsubscribing from stream...");
+                        logger.debug("Client disconnected; unsubscribing from stream...");
 
                         unsubscribe();
                         countDownLatch.countDown();
@@ -189,8 +190,8 @@ public class StreamResource
 
                         // Pass back an unsubscribable observable so we can stop streams in cluster mode.
                         return response.getContent()
-                                .doOnSubscribe(() -> logger.info("Subscribed to individual stream: " + uri))
-                                .doOnUnsubscribe(() -> logger.info("Unsubscribed from individual stream: " + uri))
+                                .doOnSubscribe(() -> logger.debug("Subscribed to individual stream: " + uri))
+                                .doOnUnsubscribe(() -> logger.debug("Unsubscribed from individual stream: " + uri))
                                 .takeUntil(removals.filter(a -> a.getUri().equals(uri)))
                                 .map(sse -> JsonUtility.jsonToMap(sse.contentAsString()));
                     });
@@ -198,7 +199,7 @@ public class StreamResource
             return eventStream.retryWhen(attempts ->
                     attempts.flatMap(e ->
                             Observable.timer(1, TimeUnit.SECONDS)
-                                    .doOnEach(n -> logger.info("Individual stream ended prematurely; retrying in 1 second: " + uri))));
+                                    .doOnEach(n -> logger.debug("Individual stream ended prematurely; retrying in 1 second: " + uri))));
         });
     }
 

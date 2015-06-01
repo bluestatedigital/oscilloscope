@@ -2,6 +2,7 @@ package com.bluestatedigital.oscilloscope;
 
 import com.bluestatedigital.oscilloscope.resources.ClusterResource;
 import com.bluestatedigital.oscilloscope.resources.StreamResource;
+import com.bluestatedigital.oscilloscope.turbine.ClusterDiscoveryFactory;
 import com.bluestatedigital.oscilloscope.turbine.StreamDiscoveryFactory;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
@@ -32,12 +33,13 @@ public class OscilloscopeApplication extends Application<OscilloscopeConfigurati
     public void run(OscilloscopeConfiguration configuration, Environment environment)
     {
         // Set up our cluster endpoint for getting cluster information.
-        final ClusterResource clusterResource = new ClusterResource();
+        final ClusterDiscoveryFactory clusterDiscoveryFactory = new ClusterDiscoveryFactory(configuration.getClusterDiscoveryClass());
+        final ClusterResource clusterResource = new ClusterResource(clusterDiscoveryFactory);
         environment.jersey().register(clusterResource);
 
         // Set up our stream endpoint for proxying single streams or aggregating cluster-wide streams.
-        final StreamDiscoveryFactory discoveryFactory = new StreamDiscoveryFactory(configuration.getDiscoveryClass());
-        final StreamResource streamResource = new StreamResource(discoveryFactory);
+        final StreamDiscoveryFactory streamDiscoveryFactory = new StreamDiscoveryFactory(configuration.getStreamDiscoveryClass(), configuration.getUriTemplate());
+        final StreamResource streamResource = new StreamResource(streamDiscoveryFactory);
         environment.jersey().register(streamResource);
     }
 }

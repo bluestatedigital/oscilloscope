@@ -3,4 +3,3 @@ server:
     enabled: false
   rootPath: '/service/*'
   applicationContextPath: /
-discoveryClass: com.bluestatedigital.oscilloscope.turbine.ConsulBasedStreamDiscovery
