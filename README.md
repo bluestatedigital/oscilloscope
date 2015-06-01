@@ -18,7 +18,7 @@ By adding an AJAX endpoint that lists out the available clusters, and tweaking t
 
 # Based On
 - `dropwizard`: project skeleton/framework
-- `hystrix-dashboard`: UI code, proxy servlet/endpoint
+- `hystrix-dashboard`: UI code
 - `turbine`: cluster discovery, integrated Turbine endpoint
 - `jquery`: JS framework of choice
 - `d3`: circuit breaker / thread pool visualizations
