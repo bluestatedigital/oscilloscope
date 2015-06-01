@@ -3,7 +3,4 @@ server:
     enabled: false
   rootPath: '/service/*'
   applicationContextPath: /
-
-turbine:
-  InstanceDiscovery.impl: com.bluestatedigital.oscilloscope.discovery.ConsulBasedInstanceDiscovery
-  turbine.instanceUrlSuffix: /hystrix.stream
+discoveryClass: com.bluestatedigital.oscilloscope.turbine.ConsulBasedStreamDiscovery

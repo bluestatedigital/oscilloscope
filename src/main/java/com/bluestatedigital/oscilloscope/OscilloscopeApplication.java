@@ -1,12 +1,12 @@
 package com.bluestatedigital.oscilloscope;
 
 import com.bluestatedigital.oscilloscope.resources.ClusterResource;
-import com.bluestatedigital.oscilloscope.stream.ProxyStreamServlet;
+import com.bluestatedigital.oscilloscope.resources.StreamResource;
+import com.bluestatedigital.oscilloscope.turbine.StreamDiscoveryFactory;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import org.eclipse.jetty.servlet.ServletHolder;
 
 public class OscilloscopeApplication extends Application<OscilloscopeConfiguration>
 {
@@ -31,11 +31,13 @@ public class OscilloscopeApplication extends Application<OscilloscopeConfigurati
     @Override
     public void run(OscilloscopeConfiguration configuration, Environment environment)
     {
-        // Set up our proxying servlet for one-to-one streams.
-        environment.getApplicationContext().addServlet(new ServletHolder(new ProxyStreamServlet()), "/stream/proxy");
-
         // Set up our cluster endpoint for getting cluster information.
         final ClusterResource clusterResource = new ClusterResource();
         environment.jersey().register(clusterResource);
+
+        // Set up our stream endpoint for proxying single streams or aggregating cluster-wide streams.
+        final StreamDiscoveryFactory discoveryFactory = new StreamDiscoveryFactory(configuration.getDiscoveryClass());
+        final StreamResource streamResource = new StreamResource(discoveryFactory);
+        environment.jersey().register(streamResource);
     }
 }

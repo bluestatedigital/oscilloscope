@@ -10,10 +10,9 @@ public class OscilloscopeConfiguration extends Configuration
 {
     @NotNull
     @JsonProperty
-    private Map<String, Object> turbine;
+    private String discoveryClass;
 
-    public Map<String, Object> getTurbineConfig()
-    {
-        return turbine;
+    public String getDiscoveryClass() {
+        return this.discoveryClass;
     }
 }
