@@ -1,4 +1,4 @@
-package com.bluestatedigital.oscilloscope.turbine;
+package com.nuclearfurnace.oscilloscope.turbine;
 
 public class ConsulInstance {
     public static enum Status {

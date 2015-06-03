@@ -1,6 +1,6 @@
-package com.bluestatedigital.oscilloscope.resources;
+package com.nuclearfurnace.oscilloscope.resources;
 
-import com.bluestatedigital.oscilloscope.turbine.ClusterDiscoveryFactory;
+import com.nuclearfurnace.oscilloscope.turbine.ClusterDiscoveryFactory;
 import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

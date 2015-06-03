@@ -1,4 +1,4 @@
-package com.bluestatedigital.oscilloscope.turbine;
+package com.nuclearfurnace.oscilloscope.turbine;
 
 import java.util.Collection;
 

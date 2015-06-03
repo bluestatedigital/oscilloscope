@@ -1,4 +1,4 @@
-package com.bluestatedigital.oscilloscope;
+package com.nuclearfurnace.oscilloscope;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
@@ -11,11 +11,11 @@ public class OscilloscopeConfiguration extends Configuration
 {
     @NotEmpty
     @JsonProperty
-    private String streamDiscoveryClass = "com.bluestatedigital.oscilloscope.turbine.ConsulStreamDiscovery";
+    private String streamDiscoveryClass = "com.nuclearfurnace.oscilloscope.turbine.ConsulStreamDiscovery";
 
     @NotEmpty
     @JsonProperty
-    private String clusterDiscoveryClass = "com.bluestatedigital.oscilloscope.turbine.ConsulClusterDiscovery";
+    private String clusterDiscoveryClass = "com.nuclearfurnace.oscilloscope.turbine.ConsulClusterDiscovery";
 
     @NotEmpty
     @JsonProperty

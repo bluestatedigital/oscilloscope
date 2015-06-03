@@ -1,9 +1,9 @@
-package com.bluestatedigital.oscilloscope;
+package com.nuclearfurnace.oscilloscope;
 
-import com.bluestatedigital.oscilloscope.resources.ClusterResource;
-import com.bluestatedigital.oscilloscope.resources.StreamResource;
-import com.bluestatedigital.oscilloscope.turbine.ClusterDiscoveryFactory;
-import com.bluestatedigital.oscilloscope.turbine.StreamDiscoveryFactory;
+import com.nuclearfurnace.oscilloscope.resources.ClusterResource;
+import com.nuclearfurnace.oscilloscope.resources.StreamResource;
+import com.nuclearfurnace.oscilloscope.turbine.ClusterDiscoveryFactory;
+import com.nuclearfurnace.oscilloscope.turbine.StreamDiscoveryFactory;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;

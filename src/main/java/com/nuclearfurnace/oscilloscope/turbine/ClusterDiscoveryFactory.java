@@ -1,4 +1,4 @@
-package com.bluestatedigital.oscilloscope.turbine;
+package com.nuclearfurnace.oscilloscope.turbine;
 
 import com.netflix.turbine.discovery.StreamDiscovery;
 import org.slf4j.Logger;

@@ -1,6 +1,6 @@
-package com.bluestatedigital.oscilloscope.resources;
+package com.nuclearfurnace.oscilloscope.resources;
 
-import com.bluestatedigital.oscilloscope.turbine.StreamDiscoveryFactory;
+import com.nuclearfurnace.oscilloscope.turbine.StreamDiscoveryFactory;
 import com.netflix.turbine.aggregator.InstanceKey;
 import com.netflix.turbine.aggregator.StreamAggregator;
 import com.netflix.turbine.aggregator.TypeAndNameKey;
