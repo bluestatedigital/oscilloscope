@@ -7,6 +7,7 @@ A better dashboard for monitoring Hystrix data, namely:
 - better usability (should be equal on all devices, ideally)
 - better styling (this is highly subjective, but remains a goal none the less)
 - faster to actually start using it (this comes from auto-discovery of clusters to monitor)
+- `hystrix-dashboard` and `turbine` in a single package
 
 The biggest thing that drove us to want to make this is: I don't want to have to figure out how to connect, and I don't want to spend much time getting things configured.
 
