@@ -1,87 +1,112 @@
-//Read a page's GET URL variables and return them as an associative array.
-// from: http://jquery-howto.blogspot.com/2009/09/get-url-parameters-values-with-jquery.html
-function getUrlVars()
-{
-    var vars = []
-    var hash = []
+var CircuitBreakerSortOptions = [
+    ["errorThenVolume", "Error Then Volume"],
+    ["alphabetical", "Alphabetical"],
+    ["volume", "Volume"],
+    ["error", "Error"],
+    ["mean", "Mean"],
+    ["median", "Median"],
+    ["90th", "90th"],
+    ["99th", "99th"],
+    ["999th", "99.9th"]
+]
 
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&')
-    for(var i = 0; i < hashes.length; i++)
-    {
-        hash = hashes[i].split('=')
-        vars.push(hash[0])
-        vars[hash[0]] = hash[1]
+var CircuitBreakerLegendOptions = [
+    ["success", "Success"],
+    ["short_circuited", "Short-Circuited"],
+    ["bad_request", "Bad Request"],
+    ["timeout", "Timeout"],
+    ["rejected", "Rejected"],
+    ["failure", "Failure"],
+    ["error_percentage", "Error %"]
+]
+
+var ThreadPoolSortOptions = [
+    ["alphabetical", "Alphabetical"],
+    ["volume", "Volume"]
+]
+
+var TypeToOptionsMap = {
+    "circuitBreakers": {
+        displayName: "Circuit Breakers",
+        eventType: "HystrixCommand",
+        sort: CircuitBreakerSortOptions,
+        legend: CircuitBreakerLegendOptions
+    },
+    "threadPools": {
+        displayName: "Thread Pools",
+        eventType: "HystrixThreadPool",
+        sort: ThreadPoolSortOptions
     }
-
-    return vars
 }
 
-// Create our monitors.  We leave them out here because we need to access them from the monitor
-// page to sort differently, etc.
-var hystrixMonitor = new HystrixCommandMonitor('dependencies', {includeDetailIcon: false})
-var dependencyThreadPoolMonitor = new HystrixThreadPoolMonitor('dependencyThreadPools')
+var Container = React.createClass({
+    render: function() {
+        return (
+            <div>
+                <div className="row full-width">
+                    <Dependency options={TypeToOptionsMap["circuitBreakers"]} />
+                </div>
 
-$(document).ready(function() {
-    // Get our stream/cluster values, and build our command/pool stream sources based on which one we have.
-    var stream = getUrlVars()["stream"]
-    var cluster = getUrlVars()["cluster"]
-
-    var eventStream = ""
-
-    if (stream != undefined) {
-        eventStream = "/service/stream/host?target=" + stream
-
-        $("#monitor_type").html("Stream: <small>" + decodeURIComponent(stream) + "</small>")
-    } else if (cluster != undefined) {
-        eventStream = "/service/stream/cluster?cluster=" + cluster
-
-        $("#monitor_type").html("Cluster: <small>" + cluster + "</small>")
+                <div className="row full-width">
+                    <Dependency options={TypeToOptionsMap["threadPools"]} />
+                </div>
+            </div>
+        )
     }
-
-    // Now load both our command and pool monitors asynchronously to avoid infinite spinner situations.
-    $(window).load(function () {
-        setTimeout(function () {
-            if (eventStream == "") {
-                $("#dependencies .loading").html("The 'stream' or 'cluster' argument was not provided.")
-                $("#dependencies .loading").addClass("failed")
-                $("#dependencyThreadPools .loading").html("The 'stream' or 'cluster' argument was not provided.")
-                $("#dependencyThreadPools .loading").addClass("failed")
-            } else {
-                // Sort by error+volume by default.
-                hystrixMonitor.sortByErrorThenVolume()
-
-                // Sort by volume by default.
-                dependencyThreadPoolMonitor.sortByVolume()
-
-                // Create our EventSource object which will immediately start streaming data from the server.
-                var source = new EventSource(eventStream)
-
-                // Now add our event listeners to actually process events and handle any errors.
-                source.addEventListener('message', hystrixMonitor.eventSourceMessageListener, false)
-                source.addEventListener('message', dependencyThreadPoolMonitor.eventSourceMessageListener, false)
-                source.addEventListener('error', function (e) {
-                    $("#dependencies .loading").html("Failed to connect to the command stream.")
-                    $("#dependencies .loading").addClass("failed");
-                    $("#dependencyThreadPools .loading").html("Failed to connect to the pool stream.")
-                    $("#dependencyThreadPools .loading").addClass("failed")
-
-                    if (e.eventPhase == EventSource.CLOSED) {
-                        // Connection was closed.
-                        console.log("Connection was closed on error: " + e)
-                    } else {
-                        console.log("Error occurred while streaming: " + e)
-                    }
-                }, false)
-            }
-        }, 0)
-    })
 })
 
-$(document).ready(function() {
-    $(".sub-nav dd").on("click", function() {
-        if(!$(this).hasClass("active")) {
-            $(this).parent().children("dd.active").removeClass("active")
-            $(this).addClass("active")
+var Dependency = React.createClass({
+    onSortHandler: function(e) {
+        console.log(e)
+    },
+    getLegend: function() {
+        if(this.props.options.legend) {
+            var options = this.props.options.legend.map(function(o) {
+                return <dd className={"legend legend_" + o[0]}>{o[1]}</dd>
+            })
+
+            return (
+                <dl className="sub-nav legend">
+                    <dt>Legend: </dt>
+                    {options}
+                </dl>
+            )
+        } else {
+            return <div className="legend" />
         }
-    })
+    },
+    render: function() {
+        var that = this
+        var sortOptions = this.props.options.sort.map(function(o) {
+            return <dd><a data-sort-type={o[0]} onClick={that.onSortHandler}>{o[1]}</a></dd>
+        })
+        var legend = this.getLegend()
+
+        return (
+            <div className="dependency">
+                <h3>{this.props.options.displayName}</h3>
+
+                <dl className="sub-nav">
+                    <dt>Sort: </dt>
+                    {sortOptions}
+                </dl>
+
+                {legend}
+
+                <div className="dependency" />
+            </div>
+        )
+    },
+    componentDidMount: function() {
+        window.addEventListener("hystrix-data", function(e) {
+            if(e.type == this.props.options.eventType) {
+                this.setState({data: e})
+            }
+        })
+    }
 })
+
+React.render(
+    <Container />,
+    document.getElementById('content')
+)
