@@ -2,6 +2,11 @@ var React = require('react')
 
 var MonitorPanel = React.createClass({
     render: function() {
+        var rejectedCount = this.props.data.rollingCountThreadPoolRejected
+        if(this.props.data.propertyValue_executionIsolationStrategy == 'SEMAPHORE') {
+            rejectedCount = this.props.data.rollingCountSemaphoreRejected
+        }
+
         return (
             <div className="monitor-panel">
                 <div className="counter-overlay">
@@ -12,7 +17,7 @@ var MonitorPanel = React.createClass({
                         </div>
                         <div className="cell separate">
                             <span className="line legend legend_timeout">{this.props.data.rollingCountTimeout}</span>
-                            <span className="line legend legend_rejected">{this.props.data.rollingCountThreadPoolRejected}</span>
+                            <span className="line legend legend_rejected">{rejectedCount}</span>
                             <span className="line legend legend_failure">{this.props.data.rollingCountFailure}</span>
                         </div>
                         <div className="cell separate">
