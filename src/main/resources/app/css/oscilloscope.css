@@ -50,14 +50,123 @@
 }
 
 /* Custom overrides to make Hystrix styling work properly with some of Foundation's defaults. */
-.dependencies, .dependencyThreadPools {
+.group {
     line-height: 1; /* Foundation sets this to 1.5, which spaces out the circuit breaker layout way too much. */
     -webkit-box-sizing: content-box;
     box-sizing: content-box;
+    margin-bottom: 24px;
+    clear: both;
 }
 
-p.name {
+.children .empty {
+    text-align: center;
+    color: red;
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 1em 0;
+}
+
+/* Monitor panels. */
+.monitor-panel {
+    display: inline-block;
+    width: 256px;
+    height: 192px;
+    margin-right: 24px;
+    margin-bottom: 24px;
+}
+
+.counter-overlay > p.monitor-name {
+    font-weight: bold;
+    margin-bottom: 5px;
     line-height: 1;
+    font-size: 0.9rem;
+}
+
+.monitor-panel .counter-overlay {
+    position: relative;
+    z-index: 100;
+    clear: both;
+}
+
+.vertical-columns .clear {
+    clear: both;
+}
+
+.vertical-columns .cell {
+    display: inline;
+    float: right;
+    padding-left: 5px;
+}
+
+.vertical-columns .cell .line {
+    display: block;
+    font-weight: bold;
+}
+
+.vertical-columns .separate {
+    padding-right: 5px;
+    border-right: 1px solid grey;
+}
+
+.vertical-columns .cell .line-large {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.counter-overlay .rate {
+    text-align: right;
+}
+
+.counter-overlay .rate .rate-label {
+    font-size: 0.8rem;
+}
+
+.counter-overlay .rate .rate-value {
+    font-weight: bold;
+}
+
+.counter-overlay .status {
+    text-align: right;
+}
+
+.counter-overlay .status .status-label {
+    font-size: 0.8rem;
+}
+
+.counter-overlay .status .status-value {
+    font-size: 0.9rem;
+}
+
+.counter-overlay .status .status-closed {
+    color: green;
+}
+
+.counter-overlay .status .status-open {
+    color: red;
+}
+
+.values-row {
+    text-align: right;
+}
+
+.values-cell {
+    width: 25%;
+    float: left;
+    font-size: 0.8rem;
+}
+
+.values-value {
+    font-weight: bold;
+}
+
+/* React CSS transitions. */
+.missing-target-appear {
+    opacity: 0.01;
+    transition: opacity .3s ease-in;
+}
+
+.missing-target-appear.missing-target-appear-active {
+    opacity: 1;
 }
 
 /* Custom classes to colorize the subnav legend on the monitor page. */
@@ -86,4 +195,8 @@ dd.legend {
 
 .legend.legend_bad_request {
     color: lightSeaGreen;
+}
+
+.legend.legend_error_percentage {
+    color: grey;
 }
