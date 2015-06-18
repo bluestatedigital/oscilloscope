@@ -1,11 +1,29 @@
 var React = require('react')
 
 var MonitorPanel = React.createClass({
+    getRoundedNumber: function(num) {
+        var dec=1;
+        var result = Math.round(num*Math.pow(10,dec))/Math.pow(10,dec);
+        var resultAsString = result.toString();
+        if(resultAsString.indexOf('.') == -1) {
+            resultAsString = resultAsString + '.0';
+        }
+        return resultAsString;
+    },
     render: function() {
         var rejectedCount = this.props.data.rollingCountThreadPoolRejected
         if(this.props.data.propertyValue_executionIsolationStrategy == 'SEMAPHORE') {
             rejectedCount = this.props.data.rollingCountSemaphoreRejected
         }
+
+        var numberSeconds = this.props.data.propertyValue_metricsRollingStatisticalWindowInMilliseconds / 1000;
+
+        var totalRequests = this.props.data.requestCount;
+        if (totalRequests < 0) {
+            totalRequests = 0;
+        }
+        var ratePerSecond =  this.getRoundedNumber(totalRequests / numberSeconds);
+        var ratePerSecondPerHost =  this.getRoundedNumber(totalRequests / numberSeconds / this.props.data.reportingHosts) ;
 
         return (
             <div className="monitor-panel">
@@ -30,11 +48,11 @@ var MonitorPanel = React.createClass({
                     </div>
                     <div className="rate">
                         <span className="rate-label">Host: </span>
-                        <span className="rate-value">0.0/s</span>
+                        <span className="rate-value">{ratePerSecondPerHost}/s</span>
                     </div>
                     <div className="rate">
                         <span className="rate-label">Cluster: </span>
-                        <span className="rate-value">0.0/s</span>
+                        <span className="rate-value">{ratePerSecond}/s</span>
                     </div>
                     <div className="status">
                         <span className="status-label">Circuit </span>
