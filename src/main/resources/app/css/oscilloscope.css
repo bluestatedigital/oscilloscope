@@ -137,12 +137,16 @@
     font-size: 0.9rem;
 }
 
-.counter-overlay .status .status-closed {
+.counter-overlay .status .status-closed, .counter-overlay .status .status-forced-closed {
     color: green;
 }
 
-.counter-overlay .status .status-open {
+.counter-overlay .status .status-open, .counter-overlay .status .status-forced-open {
     color: red;
+}
+
+.counter-overlay .status .status-partial-open {
+    color: orangered;
 }
 
 .values-row {

@@ -2,13 +2,36 @@ var React = require('react')
 
 var MonitorPanel = React.createClass({
     getRoundedNumber: function(num) {
-        var dec=1;
-        var result = Math.round(num*Math.pow(10,dec))/Math.pow(10,dec);
-        var resultAsString = result.toString();
+        var dec = 1
+        var result = Math.round(num*Math.pow(10,dec))/Math.pow(10,dec)
+        var resultAsString = result.toString()
         if(resultAsString.indexOf('.') == -1) {
-            resultAsString = resultAsString + '.0';
+            resultAsString = resultAsString + '.0'
         }
-        return resultAsString;
+
+        return resultAsString
+    },
+    getCircuitStatus: function() {
+        if(this.props.data.propertyValue_circuitBreakerForceOpen) {
+            return <span className="status-value status-force-open">Forced Open</span>
+        }
+
+        if(this.props.data.propertyValue_circuitBreakerForceClosed) {
+            return <span className="status-value status-force-closed">Forced Closed</span>
+        }
+
+        // This value defaults to a boolean but legitimately gets used as an integer.
+        // This is stupid, but whatever.
+        var circuitStatus = this.props.data.isCircuitBreakerOpen
+        if(circuitStatus == 0) {
+            return <span className="status-value status-closed">Closed</span>
+        }
+
+        if(circuitStatus == this.props.data.reportingHosts) {
+            return <span className="status-value status-open">Open</span>
+        }
+
+        return <span className="status-value status-partial-open">Open</span>
     },
     render: function() {
         var rejectedCount = this.props.data.rollingCountThreadPoolRejected
@@ -56,7 +79,7 @@ var MonitorPanel = React.createClass({
                     </div>
                     <div className="status">
                         <span className="status-label">Circuit </span>
-                        <span className="status-value status-open">Open</span>
+                        {this.getCircuitStatus()}
                     </div>
 
                     <br />
