@@ -1,3 +1,5 @@
+var Utility = require('./utility.js')
+
 var Aggregator = {
     source: null,
     commands: {},
@@ -24,7 +26,7 @@ var Aggregator = {
         var parsed = JSON.parse(e.data)
         if (parsed.type == "HystrixCommand") {
             // handle as command
-            self.commands[parsed.name] = parsed
+            self.commands[parsed.name] = this.preprocessCommand(parsed)
         }
 
         if (parsed.type == "HystrixThreadPool") {
@@ -45,6 +47,21 @@ var Aggregator = {
     dispatch: function (type, o) {
         var e = new CustomEvent("oscilloscope-data", {detail: {type: type, children: o}})
         window.dispatchEvent(e)
+    },
+    preprocessCommand: function(c) {
+        var numberSeconds = c.propertyValue_metricsRollingStatisticalWindowInMilliseconds / 1000
+
+        var totalRequests = c.requestCount
+        if (totalRequests < 0) {
+            totalRequests = 0
+        }
+        var ratePerSecond =  Utility.getRoundedNumber(totalRequests / numberSeconds)
+        var ratePerSecondPerHost =  Utility.getRoundedNumber(totalRequests / numberSeconds / c.reportingHosts)
+
+        c.ratePerSecond = ratePerSecond
+        c.ratePerSecondPerHost = ratePerSecondPerHost
+
+        return c
     }
 }
 

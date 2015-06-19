@@ -2,16 +2,6 @@ var React = require('react')
 var RequestGraph = require('./RequestGraph.jsx')
 
 var MonitorPanel = React.createClass({
-    getRoundedNumber: function(num) {
-        var dec = 1
-        var result = Math.round(num*Math.pow(10,dec))/Math.pow(10,dec)
-        var resultAsString = result.toString()
-        if(resultAsString.indexOf('.') == -1) {
-            resultAsString = resultAsString + '.0'
-        }
-
-        return resultAsString
-    },
     getCircuitStatus: function() {
         if(this.props.data.propertyValue_circuitBreakerForceOpen) {
             return <span className="status-value status-force-open">Forced Open</span>
@@ -40,18 +30,9 @@ var MonitorPanel = React.createClass({
             rejectedCount = this.props.data.rollingCountSemaphoreRejected
         }
 
-        var numberSeconds = this.props.data.propertyValue_metricsRollingStatisticalWindowInMilliseconds / 1000;
-
-        var totalRequests = this.props.data.requestCount;
-        if (totalRequests < 0) {
-            totalRequests = 0;
-        }
-        var ratePerSecond =  this.getRoundedNumber(totalRequests / numberSeconds);
-        var ratePerSecondPerHost =  this.getRoundedNumber(totalRequests / numberSeconds / this.props.data.reportingHosts) ;
-
         return (
             <div className="monitor-panel">
-                <RequestGraph />
+                <RequestGraph data={this.props.data} />
                 <div className="counter-overlay">
                     <p className="monitor-name text-right">{this.props.data.name}</p>
                     <div className="vertical-columns">
@@ -73,11 +54,11 @@ var MonitorPanel = React.createClass({
                     </div>
                     <div className="rate">
                         <span className="rate-label">Host: </span>
-                        <span className="rate-value">{ratePerSecondPerHost}/s</span>
+                        <span className="rate-value">{this.props.data.ratePerSecondPerHost}/s</span>
                     </div>
                     <div className="rate">
                         <span className="rate-label">Cluster: </span>
-                        <span className="rate-value">{ratePerSecond}/s</span>
+                        <span className="rate-value">{this.props.data.ratePerSecond}/s</span>
                     </div>
                     <div className="status">
                         <span className="status-label">Circuit </span>
