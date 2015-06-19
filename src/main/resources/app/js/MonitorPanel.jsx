@@ -1,4 +1,5 @@
 var React = require('react')
+var RequestGraph = require('./RequestGraph.jsx')
 
 var MonitorPanel = React.createClass({
     getRoundedNumber: function(num) {
@@ -50,6 +51,7 @@ var MonitorPanel = React.createClass({
 
         return (
             <div className="monitor-panel">
+                <RequestGraph />
                 <div className="counter-overlay">
                     <p className="monitor-name text-right">{this.props.data.name}</p>
                     <div className="vertical-columns">

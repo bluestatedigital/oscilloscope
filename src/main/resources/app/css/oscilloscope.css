@@ -69,10 +69,19 @@
 /* Monitor panels. */
 .monitor-panel {
     display: inline-block;
+    position: relative;
     width: 256px;
     height: 192px;
     margin-right: 24px;
     margin-bottom: 24px;
+}
+
+.monitor-panel .background, .monitor-panel .counter-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .counter-overlay > p.monitor-name {
