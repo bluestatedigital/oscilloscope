@@ -13,9 +13,25 @@ var circuitColorRange = d3.scale.linear().domain([0, 25, 40, 50]).range(["#AFDBA
 
 var RequestGraph = React.createClass({
     getInitialState: function() {
-        return {cx: "30%", cy: "30%", r: "5", fill: "#AFDBAF"}
+        return {cx: "30%", cy: "30%", r: "5", fill: "#AFDBAF", data: []}
     },
     componentWillReceiveProps: function(newProps) {
+        // Add the latest request count to our line.
+        var currentTimeMs = new Date().getTime()
+        var data = this.state.data
+        data.push({"v": parseFloat(newProps.data.ratePerSecond), "t": currentTimeMs})
+
+        while(data.length > 200) {
+            data.shift();
+        }
+
+        if(data.length > 1 && data[0].v == 0 && data[1].v != 0) {
+            data.shift();
+        }
+
+        this.setState({data: data})
+
+        // Recalculate the x/y offset and radius for our request volume bubble.
         var newXaxisForCircle = circuitCircleXaxis(newProps.data.ratePerSecondPerHost);
         if(parseInt(newXaxisForCircle) > parseInt(maxXaxisForCircle)) {
             newXaxisForCircle = maxXaxisForCircle;
@@ -54,9 +70,26 @@ var RequestGraph = React.createClass({
             });
     },
     render: function() {
+        var currentTimeMs = new Date().getTime()
+        var xScale = d3.time.scale().domain([new Date(currentTimeMs-(60*1000*2)), new Date(currentTimeMs)]).range([0, 140]);
+
+        var yMin = d3.min(this.state.data, function(d) { return d.v; });
+        var yMax = d3.max(this.state.data, function(d) { return d.v; });
+        var yScale = d3.scale.linear().domain([yMin, yMax]).nice().range([60, 0]); // y goes DOWN, so 60 is the "lowest"
+
+        var sparkline = d3.svg.line()
+            .x(function(d,i) {
+                return xScale(new Date(d.t));
+            })
+            .y(function(d) {
+                return yScale(d.v);
+            })
+            .interpolate("basis");
+
         return (
             <svg className="background">
                 <circle key={"request_volume_" + this.props.data.name} cx={this.state.cx} cy={this.state.cy} r={this.state.r} style={{fill: this.state.fill}}></circle>
+                <path key={"request_rate_historical_" + this.props.data.name} d={sparkline(this.state.data)}></path>
             </svg>
         )
     }

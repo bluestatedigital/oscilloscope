@@ -95,6 +95,7 @@
     position: relative;
     z-index: 100;
     clear: both;
+
 }
 
 .vertical-columns .clear {
@@ -170,6 +171,12 @@
 
 .values-value {
     font-weight: bold;
+}
+
+.background path {
+    stroke: steelblue;
+    stroke-width: 1;
+    fill: none;
 }
 
 /* React CSS transitions. */
