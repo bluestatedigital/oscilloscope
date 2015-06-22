@@ -26,12 +26,12 @@ var Aggregator = {
         var parsed = JSON.parse(e.data)
         if (parsed.type == "HystrixCommand") {
             // handle as command
-            self.commands[parsed.name] = this.preprocessCommand(parsed)
+            self.commands[parsed.name] = self.preprocessCommand(parsed)
         }
 
         if (parsed.type == "HystrixThreadPool") {
             // handle as thread pool
-            self.pools[parsed.name] = parsed
+            self.pools[parsed.name] = self.preprocessPool(parsed)
         }
     },
     notify: function () {
@@ -43,6 +43,7 @@ var Aggregator = {
         var poolData = Object.keys(pools).map(function (k) { return pools[k] })
 
         self.dispatch("circuitBreakers", commandData)
+        self.dispatch("threadPools", poolData)
     },
     dispatch: function (type, o) {
         var e = new CustomEvent("oscilloscope-data", {detail: {type: type, children: o}})
@@ -62,6 +63,22 @@ var Aggregator = {
         c.ratePerSecondPerHost = ratePerSecondPerHost
 
         return c
+    },
+    preprocessPool: function(p) {
+        var numberSeconds = p.propertyValue_metricsRollingStatisticalWindowInMilliseconds / 1000;
+
+        var totalThreadsExecuted = p.rollingCountThreadsExecuted
+        if (totalThreadsExecuted < 0) {
+            totalThreadsExecuted = 0
+        }
+
+        var ratePerSecond =  Utility.getRoundedNumber(totalThreadsExecuted / numberSeconds)
+        var ratePerSecondPerHost =  Utility.getRoundedNumber(totalThreadsExecuted / numberSeconds / p.reportingHosts)
+
+        p.ratePerSecond = ratePerSecond
+        p.ratePerSecondPerHost = ratePerSecondPerHost
+
+        return p
     }
 }
 

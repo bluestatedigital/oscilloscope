@@ -24,7 +24,7 @@ var MonitorPanel = React.createClass({
 
         return <span className="status-value status-partial-open">Open</span>
     },
-    render: function() {
+    getCircuitBreaker: function() {
         var rejectedCount = this.props.data.rollingCountThreadPoolRejected
         if(this.props.data.propertyValue_executionIsolationStrategy == 'SEMAPHORE') {
             rejectedCount = this.props.data.rollingCountSemaphoreRejected
@@ -37,7 +37,7 @@ var MonitorPanel = React.createClass({
                     <p className="monitor-name text-right">{this.props.data.name}</p>
                     <div className="vertical-columns">
                         <div className="cell">
-                            <span className="line line-large legend legend_error_percentage">0.0%</span>
+                            <span className="line line-large legend legend_error_percentage">{this.props.data.errorPercentage}%</span>
                         </div>
                         <div className="cell separate">
                             <span className="line legend legend_timeout">{this.props.data.rollingCountTimeout}</span>
@@ -90,6 +90,63 @@ var MonitorPanel = React.createClass({
                 </div>
             </div>
         )
+    },
+    getThreadPool: function() {
+        var rejectedCount = this.props.data.rollingCountThreadPoolRejected
+        if(this.props.data.propertyValue_executionIsolationStrategy == 'SEMAPHORE') {
+            rejectedCount = this.props.data.rollingCountSemaphoreRejected
+        }
+
+        return (
+            <div className="monitor-panel">
+                <RequestGraph rateLine={false} data={this.props.data} />
+                <div className="counter-overlay">
+                    <p className="monitor-name text-right">{this.props.data.name}</p>
+                    <div className="rate">
+                        <span className="rate-label">Host: </span>
+                        <span className="rate-value">{this.props.data.ratePerSecondPerHost}/s</span>
+                    </div>
+                    <div className="rate">
+                        <span className="rate-label">Cluster: </span>
+                        <span className="rate-value">{this.props.data.ratePerSecond}/s</span>
+                    </div>
+
+                    <br />
+
+                    <div className="values-table">
+                        <div className="values-row">
+                            <div className="values-cell values-label">Active</div>
+                            <div className="values-cell values-value">{this.props.data.currentActiveCount}</div>
+                            <div className="values-cell values-label">Max Active</div>
+                            <div className="values-cell values-value">{this.props.data.rollingMaxActiveThreads}</div>
+                        </div>
+                        <div className="values-row">
+                            <div className="values-cell values-label">Queued</div>
+                            <div className="values-cell values-value">{this.props.data.currentQueueSize}</div>
+                            <div className="values-cell values-label">Executions</div>
+                            <div className="values-cell values-value">{this.props.data.rollingCountThreadsExecuted}</div>
+                        </div>
+                        <div className="values-row">
+                            <div className="values-cell values-label">Pool Size</div>
+                            <div className="values-cell values-value">{this.props.data.currentPoolSize}</div>
+                            <div className="values-cell values-label">Queue Size</div>
+                            <div className="values-cell values-value">{this.props.data.propertyValue_queueSizeRejectionThreshold}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    },
+    render: function() {
+        if (this.props.type == "circuitBreakers") {
+            return this.getCircuitBreaker()
+        }
+
+        if(this.props.type == "threadPools") {
+            return this.getThreadPool()
+        }
+
+        return null
     }
 })
 
