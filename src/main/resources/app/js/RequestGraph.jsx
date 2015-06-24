@@ -11,9 +11,6 @@ var circuitCircleRadius = d3.scale.pow().exponent(0.5).domain([0, 400]).rangeRou
 var circuitColorRange = d3.scale.linear().domain([0, 25, 40, 50]).range(["#AFDBAF", "#FFCC00", "#FF9900", "red"])
 
 var RequestGraph = React.createClass({
-    getInitialProps: function() {
-        return {rateLine: true}
-    },
     getInitialState: function() {
         return {cx: xAxisForCircle, cy: yAxisForCircle, r: "5", fill: "#AFDBAF", data: [], sparkline: ""}
     },

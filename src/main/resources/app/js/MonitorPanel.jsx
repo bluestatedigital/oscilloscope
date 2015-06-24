@@ -32,7 +32,7 @@ var MonitorPanel = React.createClass({
 
         return (
             <div className="monitor-panel monitor-panel-circuit-breaker">
-                <RequestGraph data={this.props.data} />
+                <RequestGraph rateLine={true} data={this.props.data} />
                 <div className="counter-overlay">
                     <p className="monitor-name text-right">{this.props.data.name}</p>
                     <div className="vertical-columns">
