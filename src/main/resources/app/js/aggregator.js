@@ -7,7 +7,7 @@ var Aggregator = {
     notifier: null,
     start: function (target) {
         var self = this
-        self.source = new EventSource('http://localhost:8080' + target)
+        self.source = new EventSource(target)
         self.source.addEventListener("message", function(e) { self.handleEvent(e) })
         self.notifier = setInterval(function() { self.notify() }, 1000)
     },
