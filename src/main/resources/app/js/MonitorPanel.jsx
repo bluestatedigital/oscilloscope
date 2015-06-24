@@ -31,7 +31,7 @@ var MonitorPanel = React.createClass({
         }
 
         return (
-            <div className="monitor-panel">
+            <div className="monitor-panel monitor-panel-circuit-breaker">
                 <RequestGraph data={this.props.data} />
                 <div className="counter-overlay">
                     <p className="monitor-name text-right">{this.props.data.name}</p>
@@ -98,7 +98,7 @@ var MonitorPanel = React.createClass({
         }
 
         return (
-            <div className="monitor-panel">
+            <div className="monitor-panel monitor-panel-thread-pool">
                 <RequestGraph rateLine={false} data={this.props.data} />
                 <div className="counter-overlay">
                     <p className="monitor-name text-right">{this.props.data.name}</p>
@@ -112,25 +112,26 @@ var MonitorPanel = React.createClass({
                     </div>
 
                     <br />
+                    <br />
 
                     <div className="values-table">
                         <div className="values-row">
                             <div className="values-cell values-label">Active</div>
                             <div className="values-cell values-value">{this.props.data.currentActiveCount}</div>
-                            <div className="values-cell values-label">Max Active</div>
-                            <div className="values-cell values-value">{this.props.data.rollingMaxActiveThreads}</div>
+                            <div className="values-cell values-label wide">Max Active</div>
+                            <div className="values-cell values-value short">{this.props.data.rollingMaxActiveThreads}</div>
                         </div>
                         <div className="values-row">
                             <div className="values-cell values-label">Queued</div>
                             <div className="values-cell values-value">{this.props.data.currentQueueSize}</div>
-                            <div className="values-cell values-label">Executions</div>
-                            <div className="values-cell values-value">{this.props.data.rollingCountThreadsExecuted}</div>
+                            <div className="values-cell values-label wide">Executions</div>
+                            <div className="values-cell values-value short">{this.props.data.rollingCountThreadsExecuted}</div>
                         </div>
                         <div className="values-row">
                             <div className="values-cell values-label">Pool Size</div>
                             <div className="values-cell values-value">{this.props.data.currentPoolSize}</div>
-                            <div className="values-cell values-label">Queue Size</div>
-                            <div className="values-cell values-value">{this.props.data.propertyValue_queueSizeRejectionThreshold}</div>
+                            <div className="values-cell values-label wide">Queue Size</div>
+                            <div className="values-cell values-value short">{this.props.data.propertyValue_queueSizeRejectionThreshold}</div>
                         </div>
                     </div>
                 </div>

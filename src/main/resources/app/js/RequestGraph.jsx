@@ -2,11 +2,12 @@ var React = require('react')
 var d3 = require('d3')
 var _ = require('underscore')
 
-var xAxisForCircle="40%"
-var yAxisForCircle="40%"
-var maxRadiusForCircle="125"
+var xAxisForCircle = "40%"
+var yAxisForCircle = "40%"
+var minRadiusForCircle = 5
+var maxRadiusForCircle = 125
 
-var circuitCircleRadius = d3.scale.pow().exponent(0.5).domain([0, 400]).range(["5", maxRadiusForCircle])
+var circuitCircleRadius = d3.scale.pow().exponent(0.5).domain([0, 400]).rangeRound([minRadiusForCircle, maxRadiusForCircle])
 var circuitColorRange = d3.scale.linear().domain([0, 25, 40, 50]).range(["#AFDBAF", "#FFCC00", "#FF9900", "red"])
 
 var RequestGraph = React.createClass({
@@ -40,7 +41,7 @@ var RequestGraph = React.createClass({
             var yMax = d3.max(this.state.data, function (d) {
                 return d.v;
             })
-            var yScale = d3.scale.linear().domain([yMin, yMax]).nice().range([95, 25]) // y goes DOWN, so 60 is the "lowest"
+            var yScale = d3.scale.linear().domain([yMin, yMax]).nice().range([95, 25])
 
             var sparkline = d3.svg.line()
                 .x(function (d) {
@@ -69,7 +70,7 @@ var RequestGraph = React.createClass({
 
         return d3.select(cmp.getDOMNode())
             .transition()
-            .duration(duration || 500)
+            .duration(duration || 300)
             .ease(ease || "cubic-in-out")
             .tween(attr, function() {
                 return function(t) {
@@ -80,7 +81,7 @@ var RequestGraph = React.createClass({
     render: function() {
         return (
             <svg className="background">
-                <circle key={"request_volume_" + this.props.data.name} cx={this.state.cx} cy={this.state.cy} r={this.state.r} style={{fill: this.state.fill}}></circle>
+                <circle key={"request_volume_" + this.props.data.name} cx={this.state.cx} cy={this.state.cy} r={this.state.r} style={{fill: this.state.fill, opacity: 0.75}}></circle>
                 <path key={"request_rate_historical_" + this.props.data.name} d={this.state.sparkline}></path>
             </svg>
         )

@@ -71,9 +71,17 @@
     display: inline-block;
     position: relative;
     width: 256px;
-    height: 192px;
+    padding: 4px;
     margin-right: 24px;
     margin-bottom: 24px;
+}
+
+.monitor-panel-circuit-breaker {
+    height: 192px;
+}
+
+.monitor-panel-thread-pool {
+    height: 128px;
 }
 
 .monitor-panel .background, .monitor-panel .counter-overlay {
@@ -167,6 +175,14 @@
     width: 25%;
     float: left;
     font-size: 0.8rem;
+}
+
+.values-cell.wide {
+    width: 30%;
+}
+
+.values-cell.short {
+    width: 20%;
 }
 
 .values-value {
