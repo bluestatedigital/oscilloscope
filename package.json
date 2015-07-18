@@ -11,6 +11,8 @@
         "browserify": ">= 10.2.4",
         "watchify": ">= 3.2.2",
         "reactify": ">= 1.1.1",
-        "gulp-concat": ">= 2.5.2"
+        "gulp-concat": ">= 2.5.2",
+        "gulp-sass": ">= 2.0.3",
+        "gulp-util": ">= 3.0.6"
     }
 }

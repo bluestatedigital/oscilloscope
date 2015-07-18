@@ -51,6 +51,7 @@ var Configuration = {
 
         var stream = vars["stream"]
         var cluster = vars["cluster"]
+        var proxy = vars["proxy"]
 
         var streamTarget = ""
         var streamType = "stream"
@@ -63,6 +64,11 @@ var Configuration = {
             streamTarget = "/service/stream/cluster?cluster=" + cluster
             streamType = "cluster"
             streamName = cluster
+        }
+
+        if (proxy != undefined) {
+            var proxiedTarget = proxy + streamTarget
+            streamTarget = proxiedTarget
         }
 
         return {type: streamType, target: streamTarget, name: streamName}
