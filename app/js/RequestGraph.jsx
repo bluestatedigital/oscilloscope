@@ -38,7 +38,7 @@ var RequestGraph = React.createClass({
             var yMax = d3.max(this.state.data, function (d) {
                 return d.v;
             })
-            var yScale = d3.scale.linear().domain([yMin, yMax]).nice().range([95, 25])
+            var yScale = d3.scale.linear().domain([yMin, yMax]).nice().range([96, 32])
 
             var sparkline = d3.svg.line()
                 .x(function (d) {

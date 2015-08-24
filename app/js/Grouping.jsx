@@ -5,10 +5,6 @@ var Grouping = React.createClass({
     getInitialState: function() {
         return {data: []}
     },
-    onSortHandler: function(e) {
-        var sortType = $(e.target).data('sort-type')
-        this.setState({sortType: sortType})
-    },
     getLegend: function() {
         if(this.props.options.legend) {
             var options = this.props.options.legend.map(function(o) {
@@ -26,20 +22,11 @@ var Grouping = React.createClass({
         }
     },
     render: function() {
-        var that = this
-        var sortOptions = this.props.options.sort.map(function(o) {
-            return <dd><a data-sort-type={o[0]} key={o[0]} onClick={that.onSortHandler}>{o[1]}</a></dd>
-        })
         var legend = this.getLegend()
 
         return (
             <div className="group">
                 <h3>{this.props.options.displayName}</h3>
-
-                <dl className="sub-nav">
-                    <dt>Sort: </dt>
-                    {sortOptions}
-                </dl>
 
                 {legend}
 

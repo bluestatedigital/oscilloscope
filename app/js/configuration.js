@@ -1,15 +1,3 @@
-var CircuitBreakerSortOptions = [
-    ["errorThenVolume", "Error Then Volume"],
-    ["alphabetical", "Alphabetical"],
-    ["volume", "Volume"],
-    ["error", "Error"],
-    ["mean", "Mean"],
-    ["median", "Median"],
-    ["90th", "90th"],
-    ["99th", "99th"],
-    ["999th", "99.9th"]
-]
-
 var CircuitBreakerLegendOptions = [
     ["success", "Success"],
     ["short_circuited", "Short-Circuited"],
@@ -20,22 +8,15 @@ var CircuitBreakerLegendOptions = [
     ["error_percentage", "Error %"]
 ]
 
-var ThreadPoolSortOptions = [
-    ["alphabetical", "Alphabetical"],
-    ["volume", "Volume"]
-]
-
 var Configuration = {
     "circuitBreakers": {
         displayName: "Circuit Breakers",
         eventType: "circuitBreakers",
-        sort: CircuitBreakerSortOptions,
         legend: CircuitBreakerLegendOptions
     },
     "threadPools": {
         displayName: "Thread Pools",
-        eventType: "threadPools",
-        sort: ThreadPoolSortOptions
+        eventType: "threadPools"
     },
     getStreamInfo: function() {
         var vars = []
