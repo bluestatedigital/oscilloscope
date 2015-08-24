@@ -17,7 +17,7 @@ gulp.task('browserify', function() {
         cache: {}, packageCache: {}, fullPaths: true // Requirement of watchify
     })
    .bundle()
-   .pipe(source('main.js'))
+   .pipe(source('app.js'))
    .pipe(gulp.dest(buildDestination));
 });
 
@@ -34,8 +34,7 @@ gulp.task('browserify:dev', function() {
         .on('update', function (files) { // When any files update
             var updateStart = Date.now();
             watcher.bundle() // Create new bundle that uses the cache for high performance
-                .pipe(source('main.js'))
-                // This is where you add uglifying etc.
+                .pipe(source('app.js'))
                 .pipe(gulp.dest(buildDestination));
             gutil.log('Updated', files.length, 'file(s) in', gutil.colors.magenta((Date.now() - updateStart) + ' ms'));
         })
