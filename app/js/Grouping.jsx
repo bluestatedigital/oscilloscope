@@ -27,6 +27,7 @@ var Grouping = React.createClass({
         return (
             <div className="group">
                 <h3>{this.props.options.displayName}</h3>
+                <hr />
 
                 {legend}
 
