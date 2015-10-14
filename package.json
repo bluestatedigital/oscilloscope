@@ -1,0 +1,18 @@
+{
+    "name": "oscilloscope",
+    "description": "A Hystrix dashboard with spice.",
+    "author": "Toby Lawrence <toby@nuclearfurnace.com>",
+    "dependencies": {
+        "gulp": ">= 3.9.0",
+        "react": ">= 0.13.3",
+        "d3": ">= 3.5.5",
+        "underscore": "1.8.3",
+        "vinyl-source-stream": ">= 1.1.0",
+        "browserify": ">= 10.2.4",
+        "watchify": ">= 3.2.2",
+        "reactify": ">= 1.1.1",
+        "gulp-concat": ">= 2.5.2",
+        "gulp-sass": ">= 2.0.3",
+        "gulp-util": ">= 3.0.6"
+    }
+}

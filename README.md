@@ -6,27 +6,30 @@ A better dashboard for monitoring Hystrix data, namely:
 
 - better usability (should be equal on all devices, ideally)
 - better styling (this is highly subjective, but remains a goal none the less)
-- faster to actually start using it (this comes from auto-discovery of clusters to monitor)
-- `hystrix-dashboard` and `turbine` in a single package
+- faster to actually start using it (harnessing the power of service discovery)
 
-The biggest thing that drove us to want to make this is: I don't want to have to figure out how to connect, and I don't want to spend much time getting things configured.
+# why it's trying to be that way
+Fundamentally, `hystrix-dashboard` works, and works well.  Netflix's use case was rapid insight to the state of their circuit breakers, and it achieves that.
 
-We aren't particularily familiar with Java, and while running a Tomcat container isn't rocket science, it's much simpler to simply run a fat JAR.  Give our fledging familiarity, we decided to use Dropwizard to provide the all-in-one of serving static assets and also providing the cluster discovery mechanism. (more on that below)
+To me, the dashboard is a little spartan, and lacked a big feature that maybe just didn't quiteee make sense for Netflix, but makes a lot of sense to me: automatic cluster discovery.
 
-Almost more importantly than the ease of getting the dashboard running is using it.  The standard `hystrix-dashboard` project requires manual input - boooo!  With the use of Turbine to aggregate streams, you're already specifying clusters, or discovering clusters, that can be monitored.  We wanted to take advantage of that. 
+You're going along, using Turbine to combine the event streams and then pointing the dashboard at your Turbine endpoint.  Maybe they need dedicated Turbine instances because the streams are so heavy. but to me, having the dashboard do that discovery and aggregation made a lot of sense to me.
 
-By adding an AJAX endpoint that lists out the available clusters, and tweaking the landing page UI to expose that list, you can now quickly and easily select a cluster to monitor. Now it's as simple as configuring the application to use the right discovery mechanism for Turbine, and you reap the benefits by being able to actually select which of those clusters to monitor right from Oscilloscope itself, no manually constructing URLs.
+So, Oscilloscope intends to give you a way to describe your service discovery mechanism -- Eureka, Consul, whatever -- and automatically find all of the "clusters" of machines that can have their Hystrix data aggregated and displayed.  Turbine did the aggregation already, we just needed a way to figure out all of the groups it was able to aggregate and let the user be able to pick one of those groups.
 
-# Based On
+No special URL to craft by hand, or have to bookmark.  You can still give it a direct URL, whether it's a Hystrix stream or Turbine stream, but for viewing a cluster, it can (and is) much easier.
+
+# based on
 - `dropwizard`: project skeleton/framework
-- `hystrix-dashboard`: UI code
+- `hystrix-dashboard`: some UI code
 - `turbine`: cluster discovery, integrated Turbine endpoint
 - `jquery`: JS framework of choice
 - `d3`: circuit breaker / thread pool visualizations
-- `foundation`: UI framework
+- `react`: UI framework
+- `foundation`: UI building blocks
 - `chosen`: jQuery plugin for fancy select elements
 
-# Super Important Legal Note Kinda Sorta
+# super important legal notice sorta kinda
 We're using code from Hystrix and Turbine themselves, and also from other projects/products.  We/I have every intent to license things properly, but we may be missing the correct licensing at times.  Please do not hesitate to file an issue if there's a licensing problem.  Open source code is a godsend, but we all want to make sure code is being used rightfully and legally.
 
 You can reach out specifically to __toby@nuclearfurnace.com__ about any licensing issues.

@@ -1,0 +1,238 @@
+/* This gives us full-width rows using Foundation, which we need / want when displaying circuit breakers on the monitoring view. */
+.row.full-width {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 20px;
+}
+
+.row.header {
+    margin-top: 20px;
+}
+
+/* Custom styling to show the "--- OR ---" element when selecting between a cluster or custom stream target. */
+.stream-divider {
+    position: relative;
+    margin: 0.5em 0;
+    padding: 0;
+    height: 2em;
+    font-size: 20px;
+    line-height: 2em;
+    text-align: center;
+}
+
+.stream-divider hr {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    top: 1em;
+    left: 0;
+    right: 0;
+    height: 0;
+    border: 0;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #fff;
+}
+
+.stream-divider-msg {
+    position: relative;
+    display: inline-block;
+    padding: 0 8px;
+    font-style: italic;
+    font-weight: bold;
+    color: #999;
+    background: #fff;
+}
+
+/* Customize the subnav so it actually has a non-white background. */
+.sub-nav {
+    background-color: #f2f2f2;
+    padding: 10px;
+}
+
+/* Custom overrides to make Hystrix styling work properly with some of Foundation's defaults. */
+.group {
+    line-height: 1; /* Foundation sets this to 1.5, which spaces out the circuit breaker layout way too much. */
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-bottom: 24px;
+    clear: both;
+}
+
+.children .empty {
+    text-align: center;
+    color: red;
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 1em 0;
+}
+
+/* Monitor panels. */
+.monitor-panel {
+    display: inline-block;
+    position: relative;
+    width: 240px;
+    padding: 4px;
+    margin-right: 24px;
+    margin-bottom: 24px;
+}
+
+.monitor-panel-circuit-breaker {
+    height: 192px;
+}
+
+.monitor-panel-thread-pool {
+    height: 128px;
+}
+
+.monitor-panel .background, .monitor-panel .counter-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.counter-overlay > p.monitor-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+    line-height: 1;
+    font-size: 0.9rem;
+}
+
+.monitor-panel .counter-overlay {
+    position: relative;
+    z-index: 100;
+    clear: both;
+
+}
+
+.vertical-columns .clear {
+    clear: both;
+}
+
+.vertical-columns .cell {
+    display: inline;
+    float: right;
+    padding-left: 5px;
+}
+
+.vertical-columns .cell .line {
+    display: block;
+    font-weight: bold;
+}
+
+.vertical-columns .separate {
+    padding-right: 5px;
+    border-right: 1px solid grey;
+}
+
+.vertical-columns .cell .line-large {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.counter-overlay .rate {
+    text-align: right;
+}
+
+.counter-overlay .rate .rate-label {
+    font-size: 0.8rem;
+}
+
+.counter-overlay .rate .rate-value {
+    font-weight: bold;
+}
+
+.counter-overlay .status {
+    text-align: right;
+}
+
+.counter-overlay .status .status-label {
+    font-size: 0.8rem;
+}
+
+.counter-overlay .status .status-value {
+    font-size: 0.9rem;
+}
+
+.counter-overlay .status .status-closed, .counter-overlay .status .status-forced-closed {
+    color: green;
+}
+
+.counter-overlay .status .status-open, .counter-overlay .status .status-forced-open {
+    color: red;
+}
+
+.counter-overlay .status .status-partial-open {
+    color: orangered;
+}
+
+.values-row {
+    text-align: right;
+}
+
+.values-cell {
+    width: 25%;
+    float: left;
+    font-size: 0.8rem;
+}
+
+.values-cell.wide {
+    width: 30%;
+}
+
+.values-cell.short {
+    width: 20%;
+}
+
+.values-value {
+    font-weight: bold;
+}
+
+.background path {
+    stroke: steelblue;
+    stroke-width: 1;
+    fill: none;
+}
+
+/* React CSS transitions. */
+.missing-target-appear {
+    opacity: 0.01;
+    transition: opacity .3s ease-in;
+}
+
+.missing-target-appear.missing-target-appear-active {
+    opacity: 1;
+}
+
+/* Custom classes to colorize the subnav legend on the monitor page. */
+dd.legend {
+    font-weight: bold;
+}
+.legend.legend_success {
+    color: green;
+}
+
+.legend.legend_short_circuited {
+    color: blue;
+}
+
+.legend.legend_timeout {
+    color: #FF9900;	 /* shade of orange */
+}
+
+.legend.legend_failure {
+    color: red;
+}
+
+.legend.legend_rejected {
+    color: purple;
+}
+
+.legend.legend_bad_request {
+    color: lightSeaGreen;
+}
+
+.legend.legend_error_percentage {
+    color: grey;
+}

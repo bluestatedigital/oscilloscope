@@ -2,69 +2,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0">
         <title>Oscilloscope - Monitoring</title>
 
-        <link rel="stylesheet" href="./css/normalize.css" />
-        <link rel="stylesheet" href="./css/foundation.min.css" />
-        <link rel="stylesheet" href="./css/chosen.min.css" />
-        <link rel="stylesheet" href="./css/oscilloscope.css" />
-        <link rel="stylesheet" type="text/css" href="./components/hystrixCommand/hystrixCommand.css" />
-        <link rel="stylesheet" type="text/css" href="./components/hystrixThreadPool/hystrixThreadPool.css" />
+        <link rel="stylesheet" href="./build/app.css" />
     </head>
     <body>
-        <div class="row full-width">
-            <h2 id="monitor_type"></h2>
-        </div>
+        <div id="content"></div>
 
-        <div class="row full-width">
-            <h3>Circuit Breakers</h3>
-            <dl class="sub-nav">
-                <dt>Sort:</dt>
-                <dd class="active"><a href="javascript://" onclick="hystrixMonitor.sortByErrorThenVolume()">Error then Volume</a></dd>
-                <dd><a href="javascript://" onclick="hystrixMonitor.sortAlphabetically()">Alphabetical</a></dd>
-                <dd><a href="javascript://" onclick="hystrixMonitor.sortByVolume()">Volume</a></dd>
-                <dd><a href="javascript://" onclick="hystrixMonitor.sortByError()">Error</a></dd>
-                <dd><a href="javascript://" onclick="hystrixMonitor.sortByLatencyMean()">Mean</a></dd>
-                <dd><a href="javascript://" onclick="hystrixMonitor.sortByLatencyMedian()">Median</a></dd>
-                <dd><a href="javascript://" onclick="hystrixMonitor.sortByLatency90()">90th</a></dd>
-                <dd><a href="javascript://" onclick="hystrixMonitor.sortByLatency99()">99th</a></dd>
-                <dd><a href="javascript://" onclick="hystrixMonitor.sortByLatency995()">99.5th</a></dd>
-            </dl>
-
-            <dl class="sub-nav legend">
-                <dt>Legend:</dt>
-                <dd class="legend legend_success">Success</dd>
-                <dd class="legend legend_short_circuited">Short-Circuited</dd>
-                <dd class="legend legend_bad_request">Bad Request</dd>
-                <dd class="legend legend_timeout">Timeout</dd>
-                <dd class="legend legend_rejected">Rejected</dd>
-                <dd class="legend legend_failure">Failure</dd>
-                <dd class="legend legend_error_percentage">Error %</dd>
-            </dl>
-
-            <div id="dependencies" class="dependencies"><span class="loading">Loading ...</span></div>
-        </div>
-
-        <div><br /></div>
-        <div><br /></div>
-
-        <div class="row full-width">
-            <h3>Thread Pools</h3>
-            <dl class="sub-nav">
-                <dt>Sort:</dt>
-                <dd class="active"><a href="javascript://" onclick="dependencyThreadPoolMonitor.sortAlphabetically()">Alphabetical</a></dd>
-                <dd><a href="javascript://" onclick="dependencyThreadPoolMonitor.sortByVolume()">Volume</a></dd>
-            </dl>
-
-            <div id="dependencyThreadPools" class="dependencyThreadPools"><span class="loading">Loading ...</span></div>
-        </div>
-
-        <script type="text/javascript" src="./js/d3.v3.min.js"></script>
-        <script type="text/javascript" src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="./js/jquery.tinysort.min.js"></script>
-        <script type="text/javascript" src="./js/tmpl.js"></script>
-        <script type="text/javascript" src="./components/hystrixCommand/hystrixCommand.js"></script>
-        <script type="text/javascript" src="./components/hystrixThreadPool/hystrixThreadPool.js"></script>
-        <script type="text/javascript" src="./js/oscilloscope-monitor.js"></script>
+        <script type="text/javascript" src="./build/app.js"></script>
     </body>
 </html>
