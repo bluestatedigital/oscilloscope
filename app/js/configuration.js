@@ -32,6 +32,7 @@ var Configuration = {
 
         var stream = vars["stream"]
         var cluster = vars["cluster"]
+        var provider = vars["provider"]
         var proxy = vars["proxy"]
 
         var streamTarget = ""
@@ -42,7 +43,7 @@ var Configuration = {
             streamTarget = "/service/stream/host?target=" + stream
             streamName = stream
         } else if (cluster != undefined) {
-            streamTarget = "/service/stream/cluster?cluster=" + cluster
+            streamTarget = "/service/stream/cluster?cluster=" + cluster + "&provider=" + provider
             streamType = "cluster"
             streamName = cluster
         }
