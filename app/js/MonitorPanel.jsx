@@ -4,25 +4,27 @@ var RequestGraph = require('./RequestGraph.jsx')
 var MonitorPanel = React.createClass({
     getCircuitStatus: function() {
         if(this.props.data.propertyValue_circuitBreakerForceOpen) {
-            return <span className="status-value status-force-open">Forced Open</span>
+            return <span className="status-value status-forced-open">Forced Open</span>
         }
 
         if(this.props.data.propertyValue_circuitBreakerForceClosed) {
-            return <span className="status-value status-force-closed">Forced Closed</span>
+            return <span className="status-value status-forced-closed">Forced Closed</span>
         }
 
-        // This value defaults to a boolean but legitimately gets used as an integer.
-        // This is stupid, but whatever.
+        // This value defaults to a boolean but then gets set as an object in clustered mode
+        // if some hosts are open.  This is stupid, but whatever.
         var circuitStatus = this.props.data.isCircuitBreakerOpen
-        if(circuitStatus == 0) {
+        if(circuitStatus === false) {
             return <span className="status-value status-closed">Closed</span>
         }
 
-        if(circuitStatus == this.props.data.reportingHosts) {
+        if(circuitStatus === true) {
             return <span className="status-value status-open">Open</span>
         }
 
-        return <span className="status-value status-partial-open">Open</span>
+        var openPercentage = (this.props.data.isCircuitBreakerOpen["true"] / this.props.data.reportingHosts) * 100
+
+        return <span className="status-value status-partial-open">Open ({openPercentage}%)</span>
     },
     getCircuitBreaker: function() {
         var rejectedCount = this.props.data.rollingCountThreadPoolRejected

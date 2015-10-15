@@ -1,11 +1,11 @@
 package com.nuclearfurnace.oscilloscope.resources;
 
-import com.nuclearfurnace.oscilloscope.turbine.StreamDiscoveryFactory;
+import com.nuclearfurnace.oscilloscope.discovery.ClusterProvider;
+import com.nuclearfurnace.oscilloscope.discovery.DiscoveryManager;
 import com.netflix.turbine.aggregator.InstanceKey;
 import com.netflix.turbine.aggregator.StreamAggregator;
 import com.netflix.turbine.aggregator.TypeAndNameKey;
 import com.netflix.turbine.discovery.StreamAction;
-import com.netflix.turbine.discovery.StreamDiscovery;
 import com.netflix.turbine.internal.JsonUtility;
 import io.netty.buffer.ByteBuf;
 import io.reactivex.netty.RxNetty;
@@ -36,10 +36,10 @@ public class StreamResource
 {
     private static final Logger logger = LoggerFactory.getLogger(StreamResource.class);
 
-    private final StreamDiscoveryFactory discoveryFactory;
+    private final DiscoveryManager discoveryManager;
 
-    public StreamResource(StreamDiscoveryFactory discoveryFactory) {
-        this.discoveryFactory = discoveryFactory;
+    public StreamResource(DiscoveryManager discoveryManager) {
+        this.discoveryManager = discoveryManager;
     }
 
     @GET
@@ -85,13 +85,13 @@ public class StreamResource
 
     @GET
     @Path("cluster")
-    public Response streamCluster(@QueryParam("cluster") String cluster)
+    public Response streamCluster(@QueryParam("provider") String provider, @QueryParam("cluster") String cluster)
     {
-        // Get a stream discovery for the given cluster.
-        StreamDiscovery discovery = this.discoveryFactory.getDiscoveryForCluster(cluster);
+        ClusterProvider clusterProvider = discoveryManager.getProvider(provider);
+        Observable<StreamAction> streamActions = clusterProvider.getInstanceList(cluster);
 
         // Get our stream and convert it to a streaming response.
-        Observable<Map<String, Object>> eventStream = getGroupedStream(discovery)
+        Observable<Map<String, Object>> eventStream = getGroupedStream(streamActions)
                 .flatMap(o -> o);
 
         return streamFromObservable(eventStream);
@@ -113,7 +113,7 @@ public class StreamResource
                 @Override
                 public void onCompleted() {
                     try {
-                        logger.debug("Event stream finished; closing stream to client.");
+                        logger.info("Event stream finished; closing stream to client.");
                         outputStream.close();
                     } catch (IOException e) {
                         logger.warn("Exception closing output stream", e);
@@ -200,8 +200,8 @@ public class StreamResource
         });
     }
 
-    public static Observable<GroupedObservable<TypeAndNameKey, Map<String, Object>>> getGroupedStream(StreamDiscovery discovery) {
-        Observable<StreamAction> streamActions = discovery.getInstanceList().publish().refCount();
+    public static Observable<GroupedObservable<TypeAndNameKey, Map<String, Object>>> getGroupedStream(Observable<StreamAction> rawActions) {
+        Observable<StreamAction> streamActions = rawActions.publish().refCount();
         Observable<StreamAction> streamAdditions = streamActions.filter(a -> a.getType() == StreamAction.ActionType.ADD);
         Observable<StreamAction> streamRemovals = streamActions.filter(a -> a.getType() == StreamAction.ActionType.REMOVE);
 

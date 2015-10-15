@@ -1,9 +1,12 @@
 package com.nuclearfurnace.oscilloscope;
 
+import com.nuclearfurnace.oscilloscope.discovery.DiscoveryManager;
+import com.nuclearfurnace.oscilloscope.discovery.ProviderRegistry;
+import com.nuclearfurnace.oscilloscope.discovery.providers.ConsulClusterProvider;
+import com.nuclearfurnace.oscilloscope.discovery.providers.StaticConfigurationClusterProvider;
+import com.nuclearfurnace.oscilloscope.discovery.tasks.RefreshProvidersTask;
 import com.nuclearfurnace.oscilloscope.resources.ClusterResource;
 import com.nuclearfurnace.oscilloscope.resources.StreamResource;
-import com.nuclearfurnace.oscilloscope.turbine.ClusterDiscoveryFactory;
-import com.nuclearfurnace.oscilloscope.turbine.StreamDiscoveryFactory;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
@@ -32,14 +35,22 @@ public class OscilloscopeApplication extends Application<OscilloscopeConfigurati
     @Override
     public void run(OscilloscopeConfiguration configuration, Environment environment)
     {
+        // Register our discovery providers.
+        ProviderRegistry.registerProvider("static", new StaticConfigurationClusterProvider());
+        ProviderRegistry.registerProvider("consul", new ConsulClusterProvider());
+
+        // Set up our discovery manager.
+        DiscoveryManager discoveryManager = new DiscoveryManager();
+        environment.lifecycle().manage(discoveryManager);
+
+        RefreshProvidersTask refreshProvidersTask = new RefreshProvidersTask(discoveryManager);
+        environment.admin().addTask(refreshProvidersTask);
+
         // Set up our cluster endpoint for getting cluster information.
-        final ClusterDiscoveryFactory clusterDiscoveryFactory = new ClusterDiscoveryFactory(configuration.getClusterDiscoveryClass());
-        final ClusterResource clusterResource = new ClusterResource(clusterDiscoveryFactory);
+        final ClusterResource clusterResource = new ClusterResource(discoveryManager);
         environment.jersey().register(clusterResource);
 
-        // Set up our stream endpoint for proxying single streams or aggregating cluster-wide streams.
-        final StreamDiscoveryFactory streamDiscoveryFactory = new StreamDiscoveryFactory(configuration.getStreamDiscoveryClass(), configuration.getUriTemplate());
-        final StreamResource streamResource = new StreamResource(streamDiscoveryFactory);
+        final StreamResource streamResource = new StreamResource(discoveryManager);
         environment.jersey().register(streamResource);
     }
 }

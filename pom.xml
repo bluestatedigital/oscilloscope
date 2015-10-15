@@ -18,6 +18,11 @@
             <version>${dropwizard.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.netflix.archaius</groupId>
+            <artifactId>archaius-core</artifactId>
+            <version>${archaius.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.netflix.turbine</groupId>
             <artifactId>turbine-core</artifactId>
             <version>${turbine.version}</version>
@@ -36,6 +41,7 @@
         <dropwizard.version>0.8.1</dropwizard.version>
         <turbine.version>2.0.0-DP.2</turbine.version>
         <consul-api.version>1.1.2</consul-api.version>
+        <archaius.version>0.4.1</archaius.version>
     </properties>
 
     <build>

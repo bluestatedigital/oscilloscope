@@ -1,15 +1,16 @@
-package com.nuclearfurnace.oscilloscope.turbine;
+package com.nuclearfurnace.oscilloscope.discovery;
 
-public class ConsulInstance {
-    public static enum Status {
+public class ClusterInstance {
+    public enum Status {
         UP, DOWN
     }
+
     private final String hostname;
     private final int port;
     private final String cluster;
     private final Status status;
 
-    public ConsulInstance(String hostname, int port, String cluster, Status status) {
+    public ClusterInstance(String hostname, int port, String cluster, Status status) {
         this.hostname = hostname;
         this.port = port;
         this.cluster = cluster;
@@ -54,7 +55,7 @@ public class ConsulInstance {
         if (getClass() != obj.getClass())
             return false;
 
-        ConsulInstance other = (ConsulInstance) obj;
+        ClusterInstance other = (ClusterInstance) obj;
         if (getHostname() == null) {
             if (other.getHostname() != null)
                 return false;

@@ -1,33 +1,29 @@
 package com.nuclearfurnace.oscilloscope.resources;
 
-import com.nuclearfurnace.oscilloscope.turbine.ClusterDiscoveryFactory;
+import com.nuclearfurnace.oscilloscope.discovery.Cluster;
+import com.nuclearfurnace.oscilloscope.discovery.DiscoveryManager;
 import com.codahale.metrics.annotation.Timed;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.Collection;
+import java.util.List;
 
 @Path("/clusters")
 @Produces(MediaType.APPLICATION_JSON)
 public class ClusterResource
 {
-    private static final Logger logger = LoggerFactory.getLogger(ClusterResource.class);
+    private final DiscoveryManager discoveryManager;
 
-    private final ClusterDiscoveryFactory discoveryFactory;
+    public ClusterResource(DiscoveryManager discoveryManager) {
 
-    public ClusterResource(ClusterDiscoveryFactory discoveryFactory) {
-
-        this.discoveryFactory = discoveryFactory;
+        this.discoveryManager = discoveryManager;
     }
 
     @GET
     @Timed
-    public Collection<String> getClusters()
-    {
-        return this.discoveryFactory.getDiscoveryForCluster().getClusters();
+    public List<Cluster> getClusters() {
+        return this.discoveryManager.getClusters();
     }
 }
