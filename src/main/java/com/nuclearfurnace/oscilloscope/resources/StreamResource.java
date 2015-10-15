@@ -2,12 +2,10 @@ package com.nuclearfurnace.oscilloscope.resources;
 
 import com.nuclearfurnace.oscilloscope.discovery.ClusterProvider;
 import com.nuclearfurnace.oscilloscope.discovery.DiscoveryManager;
-import com.nuclearfurnace.oscilloscope.turbine.StreamDiscoveryFactory;
 import com.netflix.turbine.aggregator.InstanceKey;
 import com.netflix.turbine.aggregator.StreamAggregator;
 import com.netflix.turbine.aggregator.TypeAndNameKey;
 import com.netflix.turbine.discovery.StreamAction;
-import com.netflix.turbine.discovery.StreamDiscovery;
 import com.netflix.turbine.internal.JsonUtility;
 import io.netty.buffer.ByteBuf;
 import io.reactivex.netty.RxNetty;
