@@ -1,5 +1,6 @@
 *.class
 dependency-reduced-pom.xml
+config.properties
 
 # IntelliJ stuff
 .idea
