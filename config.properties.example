@@ -2,4 +2,4 @@ oscilloscope.discovery.providers = static
 
 oscilloscope.discovery.providers.static = guestlist-prod
 
-oscilloscope.discovery.providers.static.guestlist-prod = localhost:8090
+oscilloscope.discovery.providers.static.guestlist-prod = localhost:8090,localhost:8092
