@@ -6,7 +6,6 @@ import com.netflix.turbine.discovery.StreamAction;
 import com.nuclearfurnace.oscilloscope.discovery.Cluster;
 import com.nuclearfurnace.oscilloscope.discovery.ClusterInstance;
 import com.nuclearfurnace.oscilloscope.discovery.ClusterProvider;
-import com.nuclearfurnace.oscilloscope.discovery.ProviderRegistry;
 import rx.Observable;
 import rx.Subscriber;
 import rx.schedulers.Schedulers;
@@ -20,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 public class StaticConfigurationClusterProvider implements ClusterProvider {
     final DynamicStringProperty staticClusters = DynamicPropertyFactory.getInstance().getStringProperty("oscilloscope.discovery.providers.static", "");
-    final DynamicStringProperty uriTemplate = DynamicPropertyFactory.getInstance().getStringProperty("oscilloscope.discovery.providers.static.uri_template", "{HOSTNAME}:{PORT}/hystrix.stream");
+    final DynamicStringProperty uriTemplate = DynamicPropertyFactory.getInstance().getStringProperty("oscilloscope.discovery.providers.static.uri_template", "http://{HOSTNAME}:{PORT}/hystrix.stream");
 
     @Override
     public Observable<Cluster> getClusters() {

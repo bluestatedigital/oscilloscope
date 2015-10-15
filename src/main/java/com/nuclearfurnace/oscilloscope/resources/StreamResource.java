@@ -115,7 +115,7 @@ public class StreamResource
                 @Override
                 public void onCompleted() {
                     try {
-                        logger.debug("Event stream finished; closing stream to client.");
+                        logger.info("Event stream finished; closing stream to client.");
                         outputStream.close();
                     } catch (IOException e) {
                         logger.warn("Exception closing output stream", e);
