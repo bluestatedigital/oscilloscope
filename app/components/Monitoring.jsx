@@ -5,15 +5,27 @@ var Grouping = require('./Grouping.jsx')
 
 var Monitoring = React.createClass({
   getMode: function() {
-    if(this.props.options.streamTarget != '') {
-      return "Stream: " + this.props.options.streamTarget
+    if(this.state.streamMode == 'host') {
+      return "Stream: " + this.state.streamTarget
     }
 
-    return 'Cluster: ' + this.props.options.clusterName
+    return 'Cluster: ' + this.state.streamTarget
   },
   componentWillMount: function() {
-    var streamEndpoint = Configuration.getStreamEndpoint(this.props.options)
+    var decodedStreamData = JSON.parse(window.atob(this.props.params.data))
+    var streamEndpoint = Configuration.getStreamEndpoint(decodedStreamData)
     Aggregator.start(streamEndpoint)
+
+    var streamMode = decodedStreamData.sm
+
+    // 'h' is host target.  If that's empty, it means we're in cluster mode,
+    // then we look to 'c.n' which is the name of the cluster.
+    var streamTarget = decodedStreamData.h
+    if(streamTarget == '') {
+      streamTarget = decodedStreamData.c.n
+    }
+
+    this.setState({ streamMode: streamMode, streamTarget: streamTarget })
   },
   componentWillUnmount: function() {
     Aggregator.stop()

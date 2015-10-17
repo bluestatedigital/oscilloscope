@@ -18,12 +18,12 @@ var Configuration = {
     displayName: "Thread Pools",
     eventType: "threadPools"
   },
-  getStreamEndpoint: function(options) {
-    if(options.streamTarget != '') {
-      return '/service/stream/host?target=' + options.streamTarget
+  getStreamEndpoint: function(params) {
+    if(params.sm == 'host') {
+      return '/service/stream/host?target=' + params.h
     }
 
-    return '/service/stream/cluster?cluster=' + options.clusterName + '&provider=' + options.clusterProvider
+    return '/service/stream/cluster?cluster=' + params.c.n + '&provider=' + params.c.p
   }
 }
 

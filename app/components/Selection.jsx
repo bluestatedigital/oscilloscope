@@ -1,14 +1,16 @@
 var React = require('react')
 var Select = require('react-select')
+var History = require('react-router').History
 
 require('react-select/dist/default.css')
 
 var Selection = React.createClass({
+  mixins: [ History ],
   getInitialState: function() {
-    return {streamTarget: '', clusterTarget: ''}
+    return {hostTarget: '', clusterTarget: ''}
   },
-  onStreamSelectionChanged: function() {
-    this.setState({ streamTarget: this.refs.stream.value })
+  onHostSelectionChanged: function() {
+    this.setState({ hostTarget: this.refs.host.value })
   },
   onClusterSelectionChanged: function(clusterName) {
     this.setState({ clusterTarget: clusterName })
@@ -17,18 +19,27 @@ var Selection = React.createClass({
     return this.state.clusterTarget
   },
   shouldDisableSubmit: function() {
-    return this.state.streamTarget == '' && this.state.clusterTarget == ''
+    return this.state.hostTarget == '' && this.state.clusterTarget == ''
   },
   onSubmit: function() {
     var clusterComponents = this.state.clusterTarget.split('/')
     var clusterName = clusterComponents[0]
     var clusterProvider = clusterComponents[1]
 
-    this.props.switchToMonitoring({
-      streamTarget: this.state.streamTarget,
-      clusterName: clusterName,
-      clusterProvider: clusterProvider
-    })
+    // Route to our monitoring endpoint depending on whether we're in host
+    // or cluster mode.  This shit is pretty ugly, but it's what we have to
+    // do if we want to use a button instead of a normal anchor tag.
+    var streamMode = 'host'
+    var clusterData = {}
+    if(this.state.hostTarget == '') {
+      streamMode = 'cluster'
+      clusterData = { n: clusterName, p: clusterProvider }
+    }
+
+    var streamData = {sm: streamMode, h: this.state.hostTarget, c: clusterData}
+    var streamDataEncoded = window.btoa(JSON.stringify(streamData))
+
+    this.history.pushState(null, `/monitor/${streamMode}/${streamDataEncoded}`, null)
   },
   render: function() {
     var clusters = [
@@ -70,8 +81,8 @@ var Selection = React.createClass({
 
           <div className="row">
             <div className="columns small-12 medium-10 medium-offset-1 large-10 large-offset-1">
-              <label>Custom Stream Target
-                <input name="stream" ref="stream" type="text" placeholder="e.g. http://hystrix-host:7979/hystrix.stream" onChange={this.onStreamSelectionChanged} />
+              <label>Custom Host Target
+                <input name="host" ref="host" type="text" placeholder="e.g. http://hystrix-host:7979/hystrix.stream" onChange={this.onHostSelectionChanged} />
               </label>
             </div>
           </div>
@@ -80,7 +91,7 @@ var Selection = React.createClass({
 
           <div className="row">
             <div className="columns small-12 medium-10 medium-offset-1 large-10 large-offset-1">
-              <button id="monitor" type="button" className="expand" onClick={this.onSubmit} disabled={this.shouldDisableSubmit()}>Monitor Cluster / Target</button>
+              <button id="monitor" type="button" className="expand" onClick={this.onSubmit} disabled={this.shouldDisableSubmit()}>Monitor Cluster / Host</button>
             </div>
           </div>
         </form>
