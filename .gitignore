@@ -1,6 +1,7 @@
 *.class
 dependency-reduced-pom.xml
 config.properties
+src/main/resources/app/assets
 
 # IntelliJ stuff
 .idea

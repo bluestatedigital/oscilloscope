@@ -34,10 +34,6 @@ var Monitoring = React.createClass({
     return (
       <div>
         <div className="row full-width">
-          <h1>Oscilloscope <small>{this.getMode()}</small></h1>
-        </div>
-
-        <div className="row full-width">
           <Grouping type="circuitBreakers" options={Configuration["circuitBreakers"]} />
         </div>
 

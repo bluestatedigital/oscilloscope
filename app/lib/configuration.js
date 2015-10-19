@@ -24,6 +24,15 @@ var Configuration = {
     }
 
     return '/service/stream/cluster?cluster=' + params.c.n + '&provider=' + params.c.p
+  },
+  getModeDisplayString: function(data) {
+    var decodedParams = JSON.parse(window.atob(data))
+
+    if(decodedParams.sm == 'host') {
+      return 'Stream: ' + decodedParams.h
+    }
+
+    return 'Cluster: ' + decodedParams.c.n
   }
 }
 
