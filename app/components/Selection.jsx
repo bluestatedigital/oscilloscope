@@ -7,7 +7,7 @@ require('react-select/dist/default.css')
 var Selection = React.createClass({
   mixins: [ History ],
   getInitialState: function() {
-    return {hostTarget: '', clusterTarget: ''}
+    return {hostTarget: '', clusterTarget: '', clusters: []}
   },
   onHostSelectionChanged: function() {
     this.setState({ hostTarget: this.refs.host.value })
@@ -41,11 +41,16 @@ var Selection = React.createClass({
 
     this.history.pushState(null, `/monitor/${streamMode}/${streamDataEncoded}`, null)
   },
-  render: function() {
-    var clusters = [
-      { value: 'guestlist-prod/static', label: 'guestlist-prod (static)' }
-    ]
+  componentDidMount: function() {
+    $.get("/service/clusters", null, function(data) {
+      var clusters = data.map(function(v, i) {
+        return {'value': v.ClusterName + '/' + v.ClusterProvider, 'label': v.ClusterName + ' (' + v.ClusterProvider + ')'}
+      })
 
+      this.setState({clusters: clusters})
+    }.bind(this))
+  },
+  render: function() {
     return (
       <div>
         <div className="row full-width header text-center">
@@ -65,7 +70,7 @@ var Selection = React.createClass({
           <div className="row">
             <div className="columns small-12 medium-10 medium-offset-1 large-10 large-offset-1">
               <label>Available Clusters
-                <Select name="cluster" ref="cluster" options={clusters} placeholder="Select a cluster..." value={this.getClusterValue()} onChange={this.onClusterSelectionChanged} />
+                <Select name="cluster" ref="cluster" options={this.state.clusters} placeholder="Select a cluster..." value={this.getClusterValue()} onChange={this.onClusterSelectionChanged} />
               </label>
             </div>
           </div>
