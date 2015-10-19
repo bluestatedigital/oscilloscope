@@ -1,4 +1,5 @@
 var React = require('react')
+var ReactDOM = require('react-dom')
 var d3 = require('d3')
 var _ = require('underscore')
 
@@ -65,7 +66,7 @@ var RequestGraph = React.createClass({
 
         var interpolator = d3.interpolate(this.state[attr], targetValue)
 
-        return d3.select(cmp.getDOMNode())
+        return d3.select(ReactDOM.findDOMNode(cmp))
             .transition()
             .duration(duration || 300)
             .ease(ease || "cubic-in-out")

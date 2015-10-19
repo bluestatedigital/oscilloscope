@@ -21,6 +21,17 @@ var Grouping = React.createClass({
             return <div className="legend" />
         }
     },
+    handleDataEvent: function(e) {
+        if(e.detail.type == this.props.options.eventType) {
+            this.setState({data: e.detail.children})
+        }
+    },
+    componentDidMount: function() {
+        window.addEventListener("oscilloscope-data", this.handleDataEvent)
+    },
+    componentWillUnmount: function() {
+        window.removeEventListener("oscilloscope-data", this.handleDataEvent)
+    },
     render: function() {
         var legend = this.getLegend()
 
@@ -34,14 +45,6 @@ var Grouping = React.createClass({
                 <GroupingContainer type={this.props.type} data={this.state.data} children={[]} />
             </div>
         )
-    },
-    componentDidMount: function() {
-        var that = this
-        window.addEventListener("oscilloscope-data", function(e) {
-            if(e.detail.type == that.props.options.eventType) {
-                that.setState({data: e.detail.children})
-            }
-        })
     }
 })
 
