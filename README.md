@@ -19,6 +19,16 @@ So, Oscilloscope intends to give you a way to describe your service discovery me
 
 No special URL to craft by hand, or have to bookmark.  You can still give it a direct URL, whether it's a Hystrix stream or Turbine stream, but for viewing a cluster, it can (and is) much easier.
 
+# getting started
+You'll need to install Java, Maven, and node.js/io.js to build Oscilloscope.
+
+    git clone https://github.com/nuclearfurnace/oscilloscope.git
+    cd oscilloscope
+    npm install
+    webpack
+    mvn package
+    java -jar target/oscilloscope-0.0.1.jar server oscilloscope.yaml
+
 # based on
 - `dropwizard`: project skeleton/framework
 - `hystrix-dashboard`: some UI code
