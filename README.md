@@ -33,11 +33,13 @@ You'll need to install Java, Maven, and node.js/io.js to build Oscilloscope.
 - `dropwizard`: project skeleton/framework
 - `hystrix-dashboard`: some UI code
 - `turbine`: cluster discovery, integrated Turbine endpoint
-- `jquery`: JS framework of choice
+- `jquery`: general JS framework of choice
 - `d3`: circuit breaker / thread pool visualizations
 - `react`: UI framework
 - `foundation`: UI building blocks
-- `chosen`: jQuery plugin for fancy select elements
+- `react-select`: React component for fancy selects
+- `react-router`: React component for SPA routing
+- and others (`underscore`, `webpack`, `consul`, `archaius`, etc)
 
 # super important legal notice sorta kinda
 We're using code from Hystrix and Turbine themselves, and also from other projects/products.  We/I have every intent to license things properly, but we may be missing the correct licensing at times.  Please do not hesitate to file an issue if there's a licensing problem.  Open source code is a godsend, but we all want to make sure code is being used rightfully and legally.
