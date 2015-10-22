@@ -76,7 +76,7 @@ var Sorting = function(anchorKey, sortKey, sortIntervalMs) {
 
     sortByKey: function(xs, key) {
       // Operate on a copy of this.  We don't want to sort in place.
-      var xsCopy = xs.slice(0, xs.length-1)
+      var xsCopy = xs.slice(0, xs.length)
       xsCopy.sort(function(a, b) {
         var valueA = a[key]
         var valueB = b[key]
