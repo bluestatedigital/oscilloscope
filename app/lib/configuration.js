@@ -11,13 +11,15 @@ var CircuitBreakerLegendOptions = [
 var Configuration = {
   "circuitBreakers": {
     displayName: "Circuit Breakers",
-    eventType: "circuitBreakers",
+    eventType: "HystrixCommand",
     legend: CircuitBreakerLegendOptions
   },
   "threadPools": {
     displayName: "Thread Pools",
-    eventType: "threadPools"
+    eventType: "HystrixThreadPool"
   },
+  "HystrixCommandType": "HystrixCommand",
+  "HystrixThreadPoolType": "HystrixThreadPool",
   getStreamEndpoint: function(params) {
     if(params.sm == 'host') {
       return '/service/stream/host?target=' + params.h
