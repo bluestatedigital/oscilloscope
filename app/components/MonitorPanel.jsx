@@ -3,17 +3,17 @@ var RequestGraph = require('./RequestGraph.jsx')
 
 var MonitorPanel = React.createClass({
     getCircuitStatus: function() {
-        if(this.props.data.propertyValue_circuitBreakerForceOpen) {
+        if(this.props.data.circuitBreaker_forcedOpen) {
             return <span className="status-value status-forced-open">Forced Open</span>
         }
 
-        if(this.props.data.propertyValue_circuitBreakerForceClosed) {
+        if(this.props.data.circuitBreaker_forcedClosed) {
             return <span className="status-value status-forced-closed">Forced Closed</span>
         }
 
         // This value defaults to a boolean but then gets set as an object in clustered mode
         // if some hosts are open.  This is stupid, but whatever.
-        var circuitStatus = this.props.data.isCircuitBreakerOpen
+        var circuitStatus = this.props.data.circuitBreaker_open
         if(circuitStatus === false) {
             return <span className="status-value status-closed">Closed</span>
         }
@@ -22,13 +22,13 @@ var MonitorPanel = React.createClass({
             return <span className="status-value status-open">Open</span>
         }
 
-        var openPercentage = (this.props.data.isCircuitBreakerOpen["true"] / this.props.data.reportingHosts) * 100
+        var openPercentage = (this.props.data.circuitBreaker_open["true"] / this.props.data.reportingHosts) * 100
 
         return <span className="status-value status-partial-open">Open ({openPercentage}%)</span>
     },
     getCircuitBreaker: function() {
         var rejectedCount = this.props.data.rollingCountThreadPoolRejected
-        if(this.props.data.propertyValue_executionIsolationStrategy == 'SEMAPHORE') {
+        if(this.props.data.execution_isolationStrategy == 'SEMAPHORE') {
             rejectedCount = this.props.data.rollingCountSemaphoreRejected
         }
 
@@ -95,7 +95,7 @@ var MonitorPanel = React.createClass({
     },
     getThreadPool: function() {
         var rejectedCount = this.props.data.rollingCountThreadPoolRejected
-        if(this.props.data.propertyValue_executionIsolationStrategy == 'SEMAPHORE') {
+        if(this.props.data.execution_isolationStrategy == 'SEMAPHORE') {
             rejectedCount = this.props.data.rollingCountSemaphoreRejected
         }
 

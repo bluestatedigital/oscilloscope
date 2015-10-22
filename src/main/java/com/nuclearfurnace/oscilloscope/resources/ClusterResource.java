@@ -17,7 +17,6 @@ public class ClusterResource
     private final DiscoveryManager discoveryManager;
 
     public ClusterResource(DiscoveryManager discoveryManager) {
-
         this.discoveryManager = discoveryManager;
     }
 

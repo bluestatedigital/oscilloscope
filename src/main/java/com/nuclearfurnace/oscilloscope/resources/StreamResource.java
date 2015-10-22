@@ -7,6 +7,7 @@ import com.netflix.turbine.aggregator.StreamAggregator;
 import com.netflix.turbine.aggregator.TypeAndNameKey;
 import com.netflix.turbine.discovery.StreamAction;
 import com.netflix.turbine.internal.JsonUtility;
+import com.nuclearfurnace.oscilloscope.utility.HystrixMetricsTransformer;
 import io.netty.buffer.ByteBuf;
 import io.reactivex.netty.RxNetty;
 import io.reactivex.netty.pipeline.PipelineConfigurators;
@@ -130,8 +131,7 @@ public class StreamResource
                 @Override
                 public void onNext(Map<String, Object> event) {
                     try {
-                        String eventAsJson = JsonUtility.mapToJson(event);
-                        logger.debug("Writing event to stream; event: {} bytes", eventAsJson.length());
+                        String eventAsJson = HystrixMetricsTransformer.toPrunedJson(event);
 
                         outputStream.write("data: ".getBytes());
                         outputStream.write(eventAsJson.getBytes());
@@ -160,7 +160,9 @@ public class StreamResource
             }
         };
 
-        return Response.ok(streamingOutput).header("Access-Control-Allow-Origin", "*").build();
+        return Response.ok(streamingOutput)
+                .header("Access-Control-Allow-Origin", "*")
+                .build();
     }
 
     /**
