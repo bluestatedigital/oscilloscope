@@ -12,7 +12,6 @@ public final class HystrixMetricsTransformer {
 
     static {
         keysToRemove = new ArrayList<>();
-        keysToRemove.add("propertyValue_metricsRollingStatisticalWindowInMilliseconds");
         keysToRemove.add("propertyValue_circuitBreakerRequestVolumeThreshold");
         keysToRemove.add("propertyValue_circuitBreakerSleepWindowInMilliseconds");
         keysToRemove.add("propertyValue_circuitBreakerErrorThresholdPercentage");
@@ -28,6 +27,7 @@ public final class HystrixMetricsTransformer {
         keysToRemove.add("InstanceKey");
 
         keysToReplace = new HashMap<>();
+        keysToReplace.put("propertyValue_metricsRollingStatisticalWindowInMilliseconds", "statsWindowMs");
         keysToReplace.put("propertyValue_circuitBreakerForceOpen", "circuitBreaker_forcedOpen");
         keysToReplace.put("propertyValue_circuitBreakerForceClosed", "circuitBreaker_forcedClosed");
         keysToReplace.put("propertyValue_circuitBreakerEnabled", "circuitBreaker_enabled");
