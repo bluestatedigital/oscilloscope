@@ -8,11 +8,18 @@ var CircuitBreakerLegendOptions = [
   ["error_percentage", "Error %"]
 ]
 
+var CircuitBreakerSortOptions = [
+  ["errorPercentage", "Error %"],
+  ["name", "Alphabetical"],
+  ["ratePerSecond", "Volume"]
+]
+
 var Configuration = {
   "circuitBreakers": {
     displayName: "Circuit Breakers",
     eventType: "HystrixCommand",
-    legend: CircuitBreakerLegendOptions
+    legend: CircuitBreakerLegendOptions,
+    sort: CircuitBreakerSortOptions
   },
   "threadPools": {
     displayName: "Thread Pools",

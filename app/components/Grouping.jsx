@@ -17,14 +17,36 @@ var Grouping = React.createClass({
                     {options}
                 </dl>
             )
-        } else {
-            return <div className="legend" />
         }
+
+        return null
+    },
+    getSort: function() {
+        if(this.props.options.sort) {
+            var options = this.props.options.sort.map(function(o) {
+                return <dd key={o[0]}><a href="#" data-sort-key={o[0]} onClick={this.handleSort}>{o[1]}</a></dd>
+            }.bind(this))
+
+            return (
+                <dl className="sub-nav sort">
+                    <dt>Sort: </dt>
+                    {options}
+                </dl>
+            )
+        }
+
+        return null
     },
     handleDataEvent: function(e) {
         if(e.detail.type == this.props.options.eventType) {
             this.setState({data: e.detail.children})
         }
+    },
+    handleSort: function(e) {
+      e.preventDefault()
+      var sortKey = $(e.target).attr('data-sort-key')
+
+      console.log("sort requested: " + sortKey)
     },
     componentDidMount: function() {
         window.addEventListener("oscilloscope-data", this.handleDataEvent)
@@ -33,14 +55,13 @@ var Grouping = React.createClass({
         window.removeEventListener("oscilloscope-data", this.handleDataEvent)
     },
     render: function() {
-        var legend = this.getLegend()
-
         return (
             <div className="group">
                 <h3>{this.props.options.displayName}</h3>
                 <hr />
 
-                {legend}
+                {this.getLegend()}
+                {this.getSort()}
 
                 <GroupingContainer type={this.props.type} data={this.state.data} children={[]} />
             </div>
