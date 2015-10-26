@@ -44,9 +44,9 @@ var Grouping = React.createClass({
     },
     handleSort: function(e) {
       e.preventDefault()
-      var sortKey = $(e.target).attr('data-sort-key')
 
-      console.log("sort requested: " + sortKey)
+      var sortKey = $(e.target).attr('data-sort-key')
+      this.props.aggregator.sortBy(sortKey)
     },
     componentDidMount: function() {
         window.addEventListener("oscilloscope-data", this.handleDataEvent)

@@ -1,5 +1,6 @@
 var React = require('react')
 var Configuration = require('../lib/configuration.js')
+var Constants = require('../lib/constants.js')
 var Aggregator = require('../lib/aggregator.js')
 var HystrixCommandAggregator = require('../lib/aggregators/HystrixCommandAggregator.js')
 var HystrixThreadPoolAggregator = require('../lib/aggregators/HystrixThreadPoolAggregator.js')
@@ -9,13 +10,19 @@ var Monitoring = React.createClass({
   getInitialState: function() {
     var aggregator = new Aggregator()
     var commandAggregator = new HystrixCommandAggregator()
-    commandAggregator.sortBy("ratePerSecond")
     var threadPoolAggregator = new HystrixThreadPoolAggregator()
 
-    aggregator.addAggregator(Configuration.HystrixCommandType, commandAggregator)
-    aggregator.addAggregator(Configuration.HystrixThreadPoolType, threadPoolAggregator)
+    aggregator.addAggregator(Constants.HystrixCommandType, commandAggregator)
+    aggregator.addAggregator(Constants.HystrixThreadPoolType, threadPoolAggregator)
 
-    return { aggregator: aggregator }
+    var subaggregators = {}
+    subaggregators[Constants.HystrixCommandType] = commandAggregator
+    subaggregators[Constants.HystrixThreadPoolType] = threadPoolAggregator
+
+    return {
+      aggregator: aggregator,
+      subaggregators: subaggregators
+    }
   },
   getMode: function() {
     if(this.state.streamMode == 'host') {
@@ -44,14 +51,23 @@ var Monitoring = React.createClass({
     this.state.aggregator.stop()
   },
   render: function() {
+    var commandType = Constants.HystrixCommandType
+    var threadPoolType = Constants.HystrixThreadPoolType
+
+    var commandAggregator = this.state.subaggregators[commandType]
+    var threadPoolAggregator = this.state.subaggregators[threadPoolType]
+
+    var commandConfig = Configuration.getTypeConfig(commandType)
+    var threadPoolConfig = Configuration.getTypeConfig(threadPoolType)
+
     return (
       <div>
         <div className="row full-width">
-          <Grouping type={Configuration.HystrixCommandType} options={Configuration["circuitBreakers"]} />
+          <Grouping type={commandType} aggregator={commandAggregator} options={commandConfig} />
         </div>
 
         <div className="row full-width">
-          <Grouping type={Configuration.HystrixThreadPoolType} options={Configuration["threadPools"]} />
+          <Grouping type={threadPoolType} aggregator={threadPoolAggregator} options={threadPoolConfig} />
         </div>
       </div>
     )

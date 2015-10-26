@@ -1,10 +1,10 @@
 var Sorting = require('../sorting.js')
-var Configuration = require('../configuration.js')
+var Constants = require('../constants.js')
 var Utility = require('../utility.js')
 
 var HystrixCommandAggregator = function() {
   var state = {
-    type: Configuration.HystrixCommandType,
+    type: Constants.HystrixCommandType,
     values: {},
     sorting: new Sorting()
   }
