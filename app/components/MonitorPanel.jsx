@@ -1,5 +1,6 @@
 var React = require('react')
 var RequestGraph = require('./RequestGraph.jsx')
+var Constants = require('../lib/constants.js')
 
 var MonitorPanel = React.createClass({
     getCircuitStatus: function() {
@@ -141,11 +142,11 @@ var MonitorPanel = React.createClass({
         )
     },
     render: function() {
-        if (this.props.type == "circuitBreakers") {
+        if (this.props.type == Constants.HystrixCommandType) {
             return this.getCircuitBreaker()
         }
 
-        if(this.props.type == "threadPools") {
+        if(this.props.type == Constants.HystrixThreadPoolType) {
             return this.getThreadPool()
         }
 
