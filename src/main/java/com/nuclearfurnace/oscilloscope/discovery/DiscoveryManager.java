@@ -26,12 +26,14 @@ public class DiscoveryManager implements Managed {
             public void run() { self.refreshProviders(); }
         }, 0, 30 * 1000);
 
-        logger.info("discovery manager started");
+        logger.info("Discovery manager started!");
     }
 
 
     public void stop() {
         providerRefreshTimer.cancel();
+
+        logger.info("Discovery manager stopped!");
     }
 
     public void refreshProviders() {
@@ -76,7 +78,7 @@ public class DiscoveryManager implements Managed {
 
         return Observable.from(providersClone.values())
                 .flatMap(provider -> provider.getClusters())
-                .toSortedList()
+                .toList()
                 .toBlocking()
                 .last();
     }

@@ -32,6 +32,11 @@
             <artifactId>consul-api</artifactId>
             <version>${consul-api.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
+            <version>${aws-java-sdk.version}</version>
+        </dependency>
     </dependencies>
 
     <properties>
@@ -42,6 +47,7 @@
         <turbine.version>2.0.0-DP.2</turbine.version>
         <consul-api.version>1.1.2</consul-api.version>
         <archaius.version>0.4.1</archaius.version>
+        <aws-java-sdk.version>1.9.0</aws-java-sdk.version>
     </properties>
 
     <build>
@@ -60,7 +66,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.3</version>
+                <version>2.4.2</version>
                 <configuration>
                     <createDependencyReducedPom>true</createDependencyReducedPom>
                     <filters>

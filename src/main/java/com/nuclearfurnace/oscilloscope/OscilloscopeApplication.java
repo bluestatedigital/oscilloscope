@@ -3,6 +3,7 @@ package com.nuclearfurnace.oscilloscope;
 import com.nuclearfurnace.oscilloscope.discovery.DiscoveryManager;
 import com.nuclearfurnace.oscilloscope.discovery.ProviderRegistry;
 import com.nuclearfurnace.oscilloscope.discovery.providers.ConsulClusterProvider;
+import com.nuclearfurnace.oscilloscope.discovery.providers.ElasticLoadBalancerClusterProvider;
 import com.nuclearfurnace.oscilloscope.discovery.providers.StaticConfigurationClusterProvider;
 import com.nuclearfurnace.oscilloscope.discovery.tasks.RefreshProvidersTask;
 import com.nuclearfurnace.oscilloscope.resources.ClusterResource;
@@ -37,6 +38,7 @@ public class OscilloscopeApplication extends Application<OscilloscopeConfigurati
     {
         // Register our discovery providers.
         ProviderRegistry.registerProvider("static", new StaticConfigurationClusterProvider());
+        ProviderRegistry.registerProvider("elb", new ElasticLoadBalancerClusterProvider());
         ProviderRegistry.registerProvider("consul", new ConsulClusterProvider());
 
         // Set up our discovery manager.
