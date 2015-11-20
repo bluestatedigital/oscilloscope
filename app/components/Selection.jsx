@@ -2,7 +2,7 @@ var React = require('react')
 var Select = require('react-select')
 var History = require('react-router').History
 
-require('react-select/dist/default.css')
+require('react-select/dist/react-select.css')
 
 var Selection = React.createClass({
   mixins: [ History ],
