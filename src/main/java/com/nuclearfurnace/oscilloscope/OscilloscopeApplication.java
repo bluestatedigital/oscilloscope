@@ -6,6 +6,7 @@ import com.nuclearfurnace.oscilloscope.discovery.providers.ConsulClusterProvider
 import com.nuclearfurnace.oscilloscope.discovery.providers.ElasticLoadBalancerClusterProvider;
 import com.nuclearfurnace.oscilloscope.discovery.providers.StaticConfigurationClusterProvider;
 import com.nuclearfurnace.oscilloscope.discovery.tasks.RefreshProvidersTask;
+import com.nuclearfurnace.oscilloscope.resources.PingResource;
 import com.nuclearfurnace.oscilloscope.resources.ClusterResource;
 import com.nuclearfurnace.oscilloscope.resources.StreamResource;
 import io.dropwizard.Application;
@@ -47,6 +48,9 @@ public class OscilloscopeApplication extends Application<OscilloscopeConfigurati
 
         RefreshProvidersTask refreshProvidersTask = new RefreshProvidersTask(discoveryManager);
         environment.admin().addTask(refreshProvidersTask);
+
+        final PingResource pingResource = new PingResource();
+        environment.jersey().register(pingResource);
 
         // Set up our cluster endpoint for getting cluster information.
         final ClusterResource clusterResource = new ClusterResource(discoveryManager);
