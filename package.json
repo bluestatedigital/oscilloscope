@@ -3,6 +3,7 @@
   "description": "A Hystrix dashboard with spice.",
   "author": "Toby Lawrence <toby@nuclearfurnace.com>",
   "scripts": {
+    "webpack": "webpack",
     "start": "webpack-dev-server --hot --inline",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
