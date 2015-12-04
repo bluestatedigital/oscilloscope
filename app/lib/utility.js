@@ -8,6 +8,9 @@ var Utility = {
     }
 
     return resultAsString
+  },
+  getTimeInSeconds: function() {
+    return (Date.now() / 1000) | 0;
   }
 }
 
