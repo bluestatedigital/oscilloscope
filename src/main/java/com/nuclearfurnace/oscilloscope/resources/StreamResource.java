@@ -191,6 +191,8 @@ public class StreamResource
                         return response.getContent()
                                 .doOnSubscribe(() -> logger.debug("Subscribed to individual stream: " + uri))
                                 .doOnUnsubscribe(() -> logger.debug("Unsubscribed from individual stream: " + uri))
+                                .doOnError((err) -> logger.debug("Received an error on stream: " + err.getMessage()))
+                                .timeout(10, TimeUnit.SECONDS)
                                 .takeUntil(removals.filter(a -> a.getUri().equals(uri)))
                                 .map(sse -> JsonUtility.jsonToMap(sse.contentAsString()));
                     });
