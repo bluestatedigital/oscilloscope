@@ -12,7 +12,7 @@ var GroupingContainer = React.createClass({
             var self = this
             return this.state.children.map(function(o) {
                 // map to a generic display component that renders itself based on the type?
-                return <MonitorPanel key={o.name} type={self.props.type} data={o} />
+                return <MonitorPanel key={o.name} type={self.props.type} lastUpdated={o.received} data={o.value} />
             })
         }
     },

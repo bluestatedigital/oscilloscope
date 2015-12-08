@@ -60,13 +60,13 @@ var Sorting = function(anchorKey, sortKey, sortIntervalMs) {
         // Sort the array we were given first, then extract the anchor key
         // to generate our sort mapping.
         var sorted = this.sortByKey(xs, state.sortKey)
-        state.sortMapping = sorted.map(function(x) { return x[state.anchorKey] })
+        state.sortMapping = sorted.map(function(x) { return x.value[state.anchorKey] })
       }
     },
 
     findByAnchorKey: function(xs, value) {
       for(var i = 0; i < xs.length; i++) {
-        if(xs[i][state.anchorKey] == value) {
+        if(xs[i].value[state.anchorKey] == value) {
           return xs[i]
         }
       }
@@ -78,8 +78,8 @@ var Sorting = function(anchorKey, sortKey, sortIntervalMs) {
       // Operate on a copy of this.  We don't want to sort in place.
       var xsCopy = xs.slice(0, xs.length)
       xsCopy.sort(function(a, b) {
-        var valueA = a[key]
-        var valueB = b[key]
+        var valueA = a.value[key]
+        var valueB = b.value[key]
 
         if(valueA < valueB) {
           return -1

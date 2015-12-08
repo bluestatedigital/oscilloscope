@@ -59,7 +59,7 @@ var HystrixCommandAggregator = function() {
       value.ratePerSecond = ratePerSecond
       value.ratePerSecondPerHost = ratePerSecondPerHost
 
-      return value
+      return {received: Utility.getTimeInSeconds(), value: value}
     }
   }
 }
